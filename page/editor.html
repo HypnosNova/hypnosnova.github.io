@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" href="../js/codemirror/codemirror.css">
+		<link rel="stylesheet" type="text/css" href="../css/checkstyle.css" />
+		<link rel="stylesheet" type="text/css" href="../js/codemirror/blackboard.css" />
+		<link rel="stylesheet" href="../js/codemirror/addon/hint/show-hint.css">
+		<link rel="stylesheet" href="../js/codemirror/addon/tern/tern.css">
+		<link rel="stylesheet" href="../js/codemirror/addon/dialog/dialog.css">
+		<script src="../js/codemirror/codemirror.js"></script>
+		<script src="../js/codemirror/addon/edit/closetag.js"></script>
+		<script src="../js/codemirror/addon/fold/xml-fold.js"></script>
+		<script src="../js/codemirror/addon/edit/closebrackets.js"></script>
+		<script src="../js/codemirror/addon/hint/show-hint.js"></script>
+		<script src="../js/codemirror/addon/hint/anyword-hint.js"></script>
+		<script src="../js/codemirror/addon/hint/javascript-hint.js"></script>
+		<script src="../js/codemirror/addon/hint/html-hint.js"></script>
+		<script src="../js/codemirror/addon/hint/css-hint.js"></script>
+		<script src="../js/codemirror/addon/tern/tern.js"></script>
+		<script src="../js/codemirror/addon/selection/active-line.js"></script>
+		<script src="../js/codemirror/addon/dialog/dialog.js"></script>
+		<script src="../js/codemirror/addon/search/searchcursor.js"></script>
+		<script src="../js/codemirror/addon/search/search.js"></script>
+
+		<script src="../js/codemirror/mode/xml.js"></script>
+		<script src="../js/codemirror/mode/javascript.js"></script>
+		<script src="../js/codemirror/mode/css.js"></script>
+		<script src="../js/codemirror/mode/htmlmixed.js"></script>
+		<script src="../js/rawinflate.js"></script>
+		<script src="../js/rawdeflate.js"></script>
+		<script src="../js/esprima.js"></script>
+
+		<script src="http://marijnhaverbeke.nl/acorn/acorn.js"></script>
+		<script src="http://marijnhaverbeke.nl/acorn/acorn_loose.js"></script>
+		<script src="http://marijnhaverbeke.nl/acorn/util/walk.js"></script>
+		<script src="http://ternjs.net/doc/demo/polyfill.js"></script>
+		<script src="http://ternjs.net/lib/signal.js"></script>
+		<script src="http://ternjs.net/lib/tern.js"></script>
+		<script src="http://ternjs.net/lib/def.js"></script>
+		<script src="http://ternjs.net/lib/comment.js"></script>
+		<script src="http://ternjs.net/lib/infer.js"></script>
+		<script src="http://ternjs.net/plugin/doc_comment.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/editor.css" />
+		<script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
+		<script src="../js/screenfull.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var x = window.screen.width;
+			var y = window.screen.height;
+			$(document).ready(function() {
+				//eg.2
+				$('#menu-2').menuToggle({
+					'ctrlBtn': 'ctrl-btn-2',
+					'speed': 500,
+					'width': x / 3,
+					'openText': '<br/>展开',
+					'closeText': '<br/>收拢',
+				});
+				//eg.3
+				$('#menu-3').menuToggle({
+					'ctrlBtn': 'ctrl-btn-3',
+					'speed': 400,
+					'height': 200,
+					'openText': '展开',
+					'closeText': '收拢',
+					'type': 'height',
+				});
+			});
+			(function($) {
+				$.fn.extend({
+					'menuToggle': function(options) {
+						//self变量，用于函数内部调用插件参数
+						var self = this;
+						//默认参数
+						this._default = {
+							'ctrlBtn': null, //关闭&展开按钮id
+							'speed': 400, //展开速度
+							'width': 400, //展开菜单宽度
+							'height': 400, //展开菜单高度
+							'openText': '展开', //展开前文本
+							'closeText': '收拢', //展开后文本
+							'type': 'width' //width表示按宽度伸展，height表示按高度伸展
+						};
+						//插件初始化函数
+						this.init = function(options) {
+							//存储自定义参数
+							self._default.ctrlBtn = options.ctrlBtn;
+							if (typeof options.type != 'undefined') self._default.type = options.type;
+							if (typeof options.width != 'undefined') self._default.width = options.width;
+							if (typeof options.height != 'undefined') self._default.height = options.height;
+							if (typeof options.speed != 'undefined') self._default.speed = options.speed;
+							if (typeof options.openText != 'undefined') self._default.openText = options.openText;
+							if (typeof options.closeText != 'undefined') self._default.closeText = options.closeText;
+							if (self._default.type == 'width') {
+								self._default.expandOpen = {
+									width: self._default.width
+								};
+								self._default.expandClose = {
+									width: 0
+								};
+							} else {
+								self._default.expandOpen = {
+									height: self._default.height
+								};
+								self._default.expandClose = {
+									height: 0
+								};
+							}
+						};
+						this.run = function() {
+							$("#" + self._default.ctrlBtn).click(function() {
+								if ($(this).hasClass('closed')) { //有closed类，表示已关闭，现在展开
+									$(this).removeClass('closed').html(self._default.closeText);
+									$(self).show().animate(self._default.expandOpen, self._default.speed);
+								} else {
+									$(this).addClass('closed').html(self._default.openText);
+									$(self).animate(self._default.expandClose, self._default.speed, function() {
+										$(this).hide();
+									});
+								}
+							});
+						};
+						//Init
+						this.init(options);
+						this.run();
+					}
+				});
+			})(jQuery);
+		</script>
+		<style type="text/css">
+			. {
+				padding: 0;
+			}
+			.divbtn {
+				font-family: '微软雅黑';
+				font-size: 18px;
+				border: 3px solid #000;
+				border-color: #222;
+				border-radius: 4px;
+				width: 100px;
+			}
+			div .divbtn:hover {
+				background-color: #00FF00;
+			}
+			/* 公用 */
+			.hide-menu {
+				width: 0;
+				border: 1px solid #333333;
+				text-align: center;
+				font-size: 13px;
+				left: 0;
+				top: 100px;
+				float: left;
+				display: none;
+			}
+			.ctrl-btn {
+				text-align: center;
+				vertical-align: middle;
+				border: 1px solid;
+				float: left;
+				position: relative;
+				top: 0px;
+				cursor: pointer;
+			}
+			/* 菜单2 */
+			#menu-2 {
+				top: 0px;
+				right: 0;
+				float: right;
+				display: block;
+				border: 0px;
+				-moz-border-radius: 0px 0px 0px 10px;
+				-webkit-border-radius: 0px 0px 0px 10px;
+			}
+			#ctrl-btn-2 {
+				color: #fff;
+				float: right;
+				width: 25px;
+				height: 80px;
+				border: 0px;
+				background: -moz-linear-gradient(left, rgba(0, 0, 255, 0.93), rgba(255, 255, 0, 0.93));
+				background: -webkit-linear-gradient(left, #339, #77F);
+				-moz-border-radius: 10px 0px 0px 10px;
+				-webkit-border-radius: 10px 0px 0px 10px;
+			}
+			.clr {
+				clear: both;
+			}
+			/* 菜单3 */
+			#menu-3 {
+				width: 400px;
+				height: 0px;
+				border: 0px;
+				-moz-border-radius: 0px 0px 0px 10px;
+				-webkit-border-radius: 0px 0px 0px 10px;
+				background: rgba(220, 220, 220, 0.93)
+			}
+			#menu-3-wrapper {
+				width: 0px;
+				top: 0;
+				left: 0px;
+				position: absolute;
+			}
+			#ctrl-btn-3 {
+				color: #fff;
+				border: 0px;
+				clear: both;
+				left: 300px;
+				width: 100px;
+				height: 25px;
+				vertical-align: middle;
+				position: relative;
+				top: 0;
+				background: -moz-linear-gradient(top, rgba(0, 0, 255, 0.93), rgba(255, 0, 255, 0.93));
+				background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(0, 0, 255, 0.93)), to(rgba(255, 255, 0, 0.93)));
+				-moz-border-radius: 0px 0px 10px 10px;
+				-webkit-border-radius: 0px 0px 10px 10px;
+			}
+			.toolbar {
+				height: 34px;
+				background-color: #CCC;
+				position: absolute;
+			}
+			#popup {
+				position: absolute;
+				color: rgb(235, 235, 235);
+				padding: 20px 20px 20px 20px;
+				background-color: rgb(80, 80, 80);
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div style="position: absolute;width: 100%;height: 100%;top:0px;">
+			<div id="editor"></div>
+			<div id="toolbar">
+			</div>
+			<div id="popup" style="display: none;">
+
+				<svg width="32" height="32" style="position: absolute; top: 5px; right: 5px; cursor: pointer;" onclick="$('#popup').css('display','none')">
+					<path d="M 9,12 L 11,10 L 15,14 L 19,10 L 21,12 L 17,16 L 21,20 L 19,22 L 15,18 L 11,22 L 9,20 L 13,16" fill="rgb(235,235,235)"></path>
+				</svg>
+				<div>
+					<div style="width: 400px; padding: 5px; border: 0px; text-align: left;">
+						<h1 style="text-align: center;width: 100%;">Nova在线IDE（Following MIT license）</h1>
+						<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本编辑器支持：代码高亮、自动缩进、实时查看、全屏查看、代码下载、变量重命名……
+						<br>
+						<br>快捷键说明：
+						<div style="margin-left: 10px;margin-top:5px;">
+							<table style="width: 100%;border-width: 3px;font-family: '微软雅黑';font-size: 14px;">
+								<tr>
+									<th style="width: 50%;">Ctrl + C：复制</th>
+									<th style="width: 50%;">Ctrl + V：黏贴</th>
+								</tr>
+								<tr>
+									<th style="width: 50%;">Ctrl + Z：撤销</th>
+									<th style="width: 50%;">Ctrl + Y：取消撤销</th>
+								</tr>
+								<tr>
+									<th style="width: 50%;">Ctrl + D：删除行</th>
+									<th style="width: 50%;">Ctrl + Enter：运行</th>
+								</tr>
+								<tr>
+									<th style="width: 50%;">Ctrl + Q：变量重命名</th>
+									<th style="width: 50%;">Ctrl + I：显示类型</th>
+								</tr>
+								<tr>
+									<th style="width: 50%;">Ctrl + A：全选</th>
+									<th style="width: 50%;">Ctrl + F：搜索</th>
+								</tr>
+								<tr>
+									<th style="width: 50%;">Ctrl + G：下一个</th>
+									<th style="width: 50%;">Ctrl + Shift + F：上一个</th>
+								</tr>
+								<tr>
+									<th style="width: 50%;">Ctrl + Shift + F：替换</th>
+									<th style="width: 50%;">Ctrl + Shift + R：全部替换</th>
+								</tr>
+								<tr>
+									<th style="width: 50%;">Alt + A：变量出现位置</th>
+									<th style="width: 50%;">Alt + D：转到定义</th>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div id="menu-2" class="hide-menu" style="overflow: hidden;">
+				<div class="toolbar">
+					<div style="float: left;margin-left:5px;margin-top:4px;">
+						<input type="checkbox" id="ck" style="left: 0px;" />
+						<label for="ck" class="check-box" style="left: 0px;"></label>
+					</div>
+					<div style="margin-left:3px;font-family: '微软雅黑';font-size: 25px;font-weight: bold;color:#343434;float:left;">Auto</div>
+					<div style="float: left;">
+						<img id="renew" width="25px" height="25px" src="teach/img/renew.png" style="margin-left: 5px;margin-top:4px;" />
+					</div>
+					<div style="float: left;margin-left: 3px;">
+						<select onchange="demoChange();" id="demoSelect" style="font-family: '微软雅黑';font-size: 16px;margin-top: 3px;">
+						</select>
+					</div>
+					<div style="float: left;">
+						<img id="resetCode" width="25px" height="25px" src="teach/img/reset.png" style="margin-left: 5px;margin-top:4px;cursor: pointer;" />
+						<a id="dCode">
+							<img width="25px" height="25px" src="teach/img/download.png" style="margin-left: 3px;" />
+						</a>
+						<img id="fullscreem" width="25px" height="25px" src="teach/img/fullscreem.png" style="margin-left: 3px;cursor: pointer;" />
+						<img id="pop" width="25px" height="25px" src="teach/img/help.png" style="margin-left: 3px;cursor: pointer;" />
+					</div>
+				</div>
+				<div style="position: absolute;top:34px" id="pdiv">
+					<div id="preview" style="position: absolute;width: 100%;height: 100%;"></div>
+				</div>
+			</div>
+			<div id="ctrl-btn-2" class="ctrl-btn">
+				<br/>收拢</div>
+		</div>
+
+		<script>
+			$("#menu-2").css("width", x / 3 + "px");
+			$("#menu-2").css("height", y / 1.5 + "px");
+			$("#pdiv").css("width", x / 3 + "px");
+			$(".toolbar").css("width", x / 3 + "px");
+			$("#pdiv").css("height", y / 3 + "px");
+			$("#menuDiv").css("top", y / 3 + "px");
+			var sampleCode = [
+				"0-0：空的模板", "lVHBSsQwEMVj/YrZ3pO4J2FN96IiyIIeFsRjtxk3KW1T02m1iDdv/oM/54/YJF3xIIKHMJM3eY95L3JxcXO+vb+9BE11tT6WsSRSY66mmsiucKYloLHFLCV8JlHmQx7RFDpXZCnnouwEaYfIyy5dSxHH/+OXjz26kS35KV/y2jS/SNFYoe+SnVXji2+SOnd706zg5Cxc7YDuobJPK9BGKWwC+urJ4sCWInqbOi8TlBeMkUYobEO5adABWdC2UuBR21PbE2PhpTIDGJWld7i72rA48mtOuJ/PYrDfbOc4Pt7frr8Nfx7NMn+mEizO50cAUsR9JwPhk74A",
+				"1-2：立方体", "lVTLbtswEESP6lcwag8yKlHyIQgQywFa101QJGiQGAh6pMW1RUMiVZJ+KEFuvfUf+nP9kVKkZFtIUKDQQdQOZ3Z3yFV68vnbZPb9dopyXRYXb1P38tIcCDVvL1WZZJVGuq5g7GvY6XhFNsRFfaRkNvYxjlcq1rkEwCvlX6Sxg/+Pv/qxBllHQ3yGh7hk/BUpXRfQrLy5oPVTs/BKIpeMn6NkZD/FBuSiENtzlDNKgdvoc0OOO3Yau97MqpGxyidRpHNAmeCaMA4SaYFyUVDURMVaV2sdRXYnZRvE6Nh/gPnldeQg3yKxgToxtLyetXb8/vXz677hP29amX+6YlvcEIlUBhzQGHHYotnV3XSK75tIMBh1OzJSgiS9LbcgVQWZZhuYWDQ4Ow3RlnEqtphx090DozqPjyNXwJa5DlGChyEaJklyyCCBU5DGkuMctvu7FmnL6TZiBfqePULwImW/CpfTcd8H/rueowNMqsoIBntVKsppASVwfahtCaIELetebZP1HC5bIBiG5jkQSqJBMlL0CDeg8k9EseymRYOnTBRCmku1S5LFIkmejww36i/YQVdIuM8wGLnTw4TSoCE5CXdeuBKKaSY4fjRapxZZrHnWhFrDgwFyF1yCmQulP3JmpA3+RRqJ1han6TXyWAptcbxDH8bNQb6G1T1s722b0hYctndqsB8dr6to5OaoG8g0dvNjBsr+NP4C",
+				"1-2：添加物体","pVZbb5swFH5Of4WX7YFOxJA0XaWWROqyqJ20alFbqdqjg0+KM8DMOLdO+++zcS6YwLStFlHI+Q7fuXwHO8GbT19Hj98mYxTJJB6eBLsvIHR4gtQK8lCwTCK5yWDQlrCW3pwsibG2US7CQRtjb557MhIAeJ63h4Fn4H9lmP9YgNh0uvgCd3HC0loyuYnB3Os15XTzc/9Lr4SIZ5ZeIv/KMvMliFnMV5coYpRCekB/GWJvyxx4pviTQHNvo1K2RIwO2k8wvfnS4QuZLaROTdn/pshDvksiUB5CCmiAUlihx9v78Rg/aItzemW5hSQBQSy/CYg8g1CyJYwK1Omfu2jFUspXmKUpiCdGZYQ8y3YL7DmSLvJx10Vd3/crgQSkFAQIK1RR6f0WKae288Y5yFEMRIx4zFWMteOvx8VqcH5gL+Ac5erWpKoIWq3WnsTzrilFBGUxScHKvLDcAE9Aio3dqTLifPBd1FMfXX+l+ILijkgQjMQWxR3k0UeSs3CHOvaghbpuNWfrsFiHeaqLcMTsWLm7dh4lhsKOBZdEMp7itSLq+PgcvUfKOcKTz1XXjOds79o9b4R1v/xG9MVGi5HFhFKTdoNA4WJq66MNtfKMSoDTd5G+quOvXF6ny2ymZt13LXDFBMyEencukRQLaBRNRz/WrFyPa2VYelybbRU6/SZUd+WsCWzUQLsVEqhr1/spiWN7l8ki9ebVdv/BgnT/e8ULUumBYXidBhdqzWb/p4GJf6yCXZlbybNEYgBbi57fjOsu9ZthrUevTg/jWB6BYnOuDMGZ3+xQRP4DrkPXPB9z/v1aOiaTnXMpj3dO+611ZJ1ikmVqT3b2GzPlyTiGBFJZt22bGxPA3Ubd+h3O5cAzJ6U6OfW/h98=",
+				"1-3：光线与阴影","pVZtT9swEP5cfoXX7UOYUictZUjQIqGugkmgIYqE9tGNr8RdEmeO+8a0/z6/9CVuE8aE1arNPee7x/f4Yvc+fP0+ePxxP0SxTJPLo97mBwi9PEJq9IpIsFwiucqh35SwlMGUzIm1NlEhon4T42BaBDIWAHhaNC97gYX/N8L01wzEqtXGZ7iNU5ZVBpOrBOx/Pcacrn5vn/RIiXhm2TkKLxwzn4OYJHxxjmJGKWQ79I8NHKwj9wK7+KOejr3OStkcMdpvPsH4+rbFZzKfSU1N2d+yyB3fORGoiCAD1EcZLNDjzcNwiEfa4h1fOG4RSUEQx+8eRJFDJNkcBgb1uqc+WrCM8gVmWQbiiVEZo8Cx3QB7jqWPQtz2UTsMw71EAjIKAoSTyqz0YY2UqW28cQFykAARA55wlWPphcuhGTXOI/YC3gFXv4KqCtBo7KbGROF3JB9mZJwAVTSlmIH2CYIrSlGi56gnU9ucy1v97NZ3Y/VQuJyYgUySrTvOecEk45lm6qFWN/TRF/VttcO1p5YIE0q9Ug6DbBdr2RCUJyQDp8LGcg08BSlWrqJlxNMZO/vymMl3RIJgJHEm30ER35J0DEJucM9thkhro3phGZmx2/NVOQ5iew5v32VSimDsWHBJTAWXKlArxKfoM1LOMb7/tu+6LbZ2bZ/WwrpWYS36YtFGY50fIlCNMTLbZbtJNnN3+hlvo9yhdNFs7CqnDZXCDUqA1/WR/uw3sHJ5r26TierXsFY3neJQtjJp36FRmq7NrhCtbh2ql35SB25lMOaIFPKfEmhP2zubHiZoTJLEfU3mser/yuKPHEiXv1PVOTbCeyU4U2MyqZXAJjkUwaXv75EpBbGAK0UnrMd1Kbr1sJajY99tBniTINa3vDvM8bK3P07CegfD6hVc06qYn3D+80p6lsnGee/V/MoKPnnNj86ZfIxJnquTw9seH5SnwwRSyGTVuWT/2Pz+mtTab3fx6AX2KqCuBvp69Bc=",
+				"1-3：简单动画", "pVdrb9s2FP3s/ArOGxC5kWXZcVagsQMEnpcWSLCg7lDsIy1dR8xkUqUox07R/z4+RFmUraRdBQdJ7jn3wXtI6nryyx9/zT79cz9HiVinVycT+wtwfHWC5DPJI04ygcQug2lXwFYMHvEGG2sX5TyadoNg8JgPRMIBgse8ezUZGPhHIzx+KYDv+sPgbTAM1oQ2gnW+P9JCYJH/f/cYi+ChIEcXI3YpmL/Vs2Tx7mv1n3rWmD8Q+g6Fl46ZbYCvUvb0DiUkjoHu0W8m8KCMPBmY5p9MVOwya0w2iMTT7mdY3tz2WSGyQqjSpF0tzMJ62U34dQ1kiI78rAoaCcIoIpQIHcrroa8S6GwwR7kyoCmi8IRK8FJh2h7kIO5YDF5YN8ZsPU9hDVQEenFBxnKiM0zRKV7mLC0EnL7kkMJKKHKYbV/kCZY5tN+87q9OM3oBzjKgsdcMYOrlIApOzRqV4ZvpiFp3xKjgLLVLt02yrREJyQPOpKM0LjKAWBLDIBxdVuiSSR9CH2roeSOJ3GxlfLX1bv7+YJqr9iCOY8/W4KNTJ9WpH/phcNHGdRLXuSeupDW999tSEyKgUBb26f3H+TxYKEuTFuE1cOzw7oHnGchObWCmUW984aMnQmP2FBBKgX8msUjQwLG9B/KQCF92aOijYRiGjURcKggcuJNKn4mPJVIvzbLV5pylgPmMpUzm2Hrhdq6fFvKCPIN3UKt/pFTdzb1rgiV+h7M5xctUay14AYozGFzHMUqVj21+xsSt+t/tr7V6KNyu9IN0kopeHSJVqYf649BHv8uf/jAsmUoivRVqOYzsdrGmGoyyFFNwOqwtN8DWIPjOVbSOeCrjqCmPdr7DAjjBqeN8B3lyi9dL4MLinnttRkobeWtuI/3sb8djOQ5ie07dvltJLYK2V8c12MpAfXko0BskyUlw/6FJrZqtqMOLVlj1KmxFnw3a6ZT5IQJ5MBZ6u1SbxPru9dNsc0EdSBcVS1c5ZTgq3KwGeGMfqU/zAEvKz+q2WsnzGrbqplIcylYv2nfKqLkrsytEf9yGqqWft4GVDNoc4Vy8KoFi2ivTtn6J09S9JrNEnv+jzV84kGr/6NjJMRF+VoK38lmtWiUwSQ5FcMv3G8XUghjAlWIUtuOqFeN2WMkxMnebBr5LEMOt7w79emnsj/OwnaCregFXZR3xTxn791p4phJLblzNL6xATSTO9FZNJNXrozGUVC9pyOy+rQ9pxs2OIWasKTI5PkA1mEF2NrXjgDuFGMJROc88+eZ94+n7MGK5p8L0er2jHqqVI2Q8tIMc6oxnTqjjqX70qavdvWfTarhyJ6jLQ/buh9jPr7DNyCe/beTimpK1Rv/kUudSDDsUlsKUrdbS++V+6JkJzspr1ahes/uvDZOBGeTlYK++XP0H",
+				"1-4：ASCII效果","pVbbbts4EH12voL17gPdyJLsOi1Q2wECr7ddIMEGdYGij7Q0ipjKlErSjp2i/768SLYoS20XJSwkmnNmODozvMxe/PXv4uPn+yVK5Sa7vphVf4DE1xdIjZmIOC0kkocC5n0Jexk8kh2x1j4SPJr3fT94FIFMOYD/KPrXs8DC/zfC49ct8MNw5L/xR/6Gskaw3q9EUmEgSSCSIrgREaVL89KaljxkYP/XY53Hh2/HNz02hD9Q9haFU8ec74AnWf70FqU0joGd0O82cFBGngVWxouZjl3OGtMdovG8/wnW726H+VYWW6lTU3b9hRW8kkSKJvxzNVWI3jGdHeFIRMAAzRGDJ/Tx/Yfl0l9pCx5MHVpENsCJw7sHLgolHd3BwqB4cuWhJ8ri/MmnjAH/RGOZosCxvQf6kEoPhf7IQ6MwDBsTcWAxcODOVEaLDyVST61i+wLkIgPCF3mWqzn2ONwvzeggr+gz4LNcvZZUVYBe7+SaEoXfkWLJyDqDWKUp+RamF4pk5CxyeavdXEkrK0bhPjEDmbhHul/kgkqaM50cRsNJ6KHX6hmOwpKpq+KTOMa1ORTiiFdkhME7yDcg+cEtVh3BOvK4qbxxviMSOCWZ43wHIr0lmzVwWeHYXQmRll0thH1kxqnh2+Y4i42dvD03k1oEY/d5rlpfK7VXgYahf4VeIkVO/ft/mtSjqJo6uuqEtVZhJ/ps0V6vnB8iUD2/Mp1wrH/le6qTYTcrFG3X7QVa1AA88ZD+NdegovxufZJELbmwsz56ivPy1JP2nDRq7trsCj6cdKH60191gUe5jTkiQv5Uas1sKi2KVK3YVq1XDqTVHrctCBvhdxV/o0aSdCpuJznX3E3fayRTC2IBV/lx2I1rKSbdsFZ/bLcmA/yS/pZbbwZzIDTa4VXYTTBZ/QDXabX4Z3n+5UZim0lFbuys3V+gaEHwOd+qaAwJACRTKlBBuEQpEWgNwFCUEvYAcbm925uDU63aJQKfTi+Tg2Ufj5vzs7HtvLGuf+L+H84NYOCTolDRcRk0zjfLDDbA7AFVHT8Simr5qF+yZZFWpMwLD9A3Ze1p1uU89MPJ1Ly2dtAlVsfzS2x21igXWDsNBoNWD129MbIexoGshfUUlDme+jHruraLX6qE/XA0PccOP8CeHUw/HNT1UMgbRjeG8jdXTYLtp59mD4KtgLKQ/lEXylSWJEZ5cromVKD2cvmm37yyCU3o741bBrZV0YbTrXIW2HueuvfpW/R/",
+				"1-4：添加、删除物体","nVdtb9s2EP7s/ArWG2q5lWW5TTqgtgMUnpcWSJCg6VAMwz7Q0jliJpMaRSV2ivz38VVvtpJlQtIqd/fcO4+n2atfLxff/rhaokRs0tOjmfsPcHx6hOQzyyNOMoHELoN5X8BWjG/xHTbUPsp5NO8Hwfg2H4uEAwS3ef90Njbsl2q4/acAvhtNgl+CSbAhtKWs9981XQss8v8Pj7EIbgpyMBixS8G8q2fF4t2P8i/1bDC/IfQjCqcNMrsDvk7Z/UeUkDgGWnEfjeKx1Twbm+QfzZRuazUmd4jE8/53WJ2dj1ghskIo1yRdBebYOuw2+/kaSBU9+bMuaCQIo4hQIrQqb4h+SEbvDnOUKwKaIwr3yDKniqfpQQ7igsXghXVizDbLFDZARaCDCzKWE21hjgZ4lbO0EDB4CpDCWijhMNs+KSdY1hD72ev/1EjGMMBZBjT22gqMvxxEwamJUREeTUbqcdeSUtVOC0RAwSbm2+evy2VwrShtsQhvgOOG3BXwPAOZ8ztYaK53fOKje0Jjdh8QSoF/J7FI0LhB+wzkJhE+CoOJjyZhGLYMcRkmcOANU7pxvlpO3TUnrSq4SAHzBUuZtLH1wu1SPx3C1+QBvD1f/QOu6hRX0ARL/gXOlhSvUoilm4IXMK1lPGPiXAGbSXVUD4XbtX6Q1lyKl+2l3PPQ6Dj00Qf5O5qEVlLVJcBx7NVsaE4ZYSOTWYopnAHbgOC7ZuXqHE8ZOW6XQYMvsABOcNoAX0CenOPNCrhwfK85QyJVAzlCtpF+qlFxyMaebq/ht9/0pKZB0wPOZFOrpG2lolEYnKA3SAonwdWXtmiZXyUadnJ3T3IfDLfXs+YhAtn/17oryl5w2KpiWtocVtsmEaOCs9TNJDe93MwSCcnL4K4z0J0WBuG7acmlhSrC5fpydStPYT431qKEpLFsVzl86I1IKnHpxqJYqXy3bRl/JE8dCsnX+ZNxpZ6nXzmWZ2Ijpd+g90MTRAk52F+LGsNzin20/9ZS9oJ+U7CebbS2k+6AaaHHlo39fquH4Tf8sFBFCiKci1aZSx6V409S++qPUR+9Rd2lMIBGK47ehxJigmCFHPJ7Wf8QDoeH0DtXrA7cyWGY6uHRu+eMHpdGqzZWeizxUAtKvd2RP7rut70NG7lUPNWROE0XVs+e4qqmqayLMS+FapA/a+/WDTRCk78MkqyRV0MSKu9JGgFb1xrD+WLjNw7XUDYRL8+Evp/NP2U6zEVfoRsZUbNEtzuVS4dcK9iN19Sux2JNZ20BkIugbXm1Fp79/sUsPmo/1BW1Y8hHg8a0GfihL6dpl6wdJoNOXWV1O0UaEXdKtfI6GAYpyQXQ2hJQjluzo+wdrmmngDo/x0/w1UE5gE8Z+/uTsCVwwq3L/MC4cFrUdtfYhMvtrtwyWgteuctB5q6f+sJrYO7smBWxyGS5wS252lPBsdzic/DK3gLXXLp51JmAw0cBvX6NAL2a2yu7gmlg/RZ+O3fFa95e0w7A7qWAh+cA+hiYl0e3Hssvs1x8omSjxX/jso422U7CJt6mUifMt/UempXaueOyXS5e1SfWbGw+euRHkPoQ/Rc=",
+				"高级：橘红色新星", "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"
+			]
+			var mySelect = document.getElementById("demoSelect");
+			$(function() {
+				for (var i = 0; i < sampleCode.length; i += 2) {
+					var opp = new Option(sampleCode[i], sampleCode[i + 1]);
+					//将option添加到select标签里面
+					mySelect.add(opp);
+				}
+			})
+
+			function demoChange() {
+				if (confirm('Are you sure?') === true) {
+					defaultCode = decode($('#demoSelect option:selected').val());
+					editor.setValue(defaultCode);
+					save();
+				}
+			}
+
+			window.URL = window.URL || window.webkitURL;
+			 // deflate
+			var decode = function(string) {
+				return RawDeflate.inflate(window.atob(string));
+			};
+			var encode = function(string) {
+				return window.btoa(RawDeflate.deflate(string));
+			};
+
+			var defaultCode = decode('lVHBSsQwEMVj/YrZ3pO4J2FN96IiyIIeFsRjtxk3KW1T02m1iDdv/oM/54/YJF3xIIKHMJM3eY95L3JxcXO+vb+9BE11tT6WsSRSY66mmsiucKYloLHFLCV8JlHmQx7RFDpXZCnnouwEaYfIyy5dSxHH/+OXjz26kS35KV/y2jS/SNFYoe+SnVXji2+SOnd706zg5Cxc7YDuobJPK9BGKWwC+urJ4sCWInqbOi8TlBeMkUYobEO5adABWdC2UuBR21PbE2PhpTIDGJWld7i72rA48mtOuJ/PYrDfbOc4Pt7frr8Nfx7NMn+mEizO50cAUsR9JwPhk74A');
+
+			var documents = [{
+				filename: 'Untitled',
+				filetype: 'text/plain',
+				autoupdate: true,
+				code: defaultCode
+			}];
+
+			if (window.location.hash) {
+				var hash = window.location.hash.substr(1);
+				var version = hash.substr(0, 2);
+				if (version == 'A/') {
+					alert('That shared link format is no longer supported.');
+				} else if (version == 'B/') {
+					documents[0].code = decode(hash.substr(2));
+				}
+			}
+			 // preview
+			var preview = document.getElementById('preview');
+			 // editor
+			var interval;
+			var editor = CodeMirror(document.getElementById('editor'), {
+				value: documents[0].code,
+				mode: 'text/html',
+				lineNumbers: true,
+				styleActiveLine: true,
+				lineWrapping: true,
+				matchBrackets: true,
+				indentWithTabs: true,
+				tabSize: 4,
+				indentUnit: 4,
+				theme: "blackboard",
+				autoCloseTags: true,
+				autoCloseBrackets: true,
+			});
+
+			function getURL(url, c) {
+				var xhr = new XMLHttpRequest();
+				xhr.open("get", url, true);
+				xhr.send();
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState != 4) return;
+					if (xhr.status < 400) return c(null, xhr.responseText);
+					var e = new Error(xhr.responseText || "No response");
+					e.status = xhr.status;
+					c(e);
+				};
+			}
+			var server;
+			getURL("http://ternjs.net/defs/ecma5.json", function(err, code) {
+				if (err) throw new Error("Request for ecma5.json: " + err);
+				server = new CodeMirror.TernServer({
+					defs: [JSON.parse(code)]
+				});
+				editor.setOption("extraKeys", {
+					"A": "autocomplete",
+					"B": "autocomplete",
+					"C": "autocomplete",
+					"D": "autocomplete",
+					"E": "autocomplete",
+					"F": "autocomplete",
+					"G": "autocomplete",
+
+					"H": "autocomplete",
+					"I": "autocomplete",
+					"J": "autocomplete",
+					"K": "autocomplete",
+					"L": "autocomplete",
+					"M": "autocomplete",
+					"N": "autocomplete",
+
+					"O": "autocomplete",
+					"P": "autocomplete",
+					"Q": "autocomplete",
+					"R": "autocomplete",
+					"S": "autocomplete",
+					"T": "autocomplete",
+					"U": "autocomplete",
+
+					"V": "autocomplete",
+					"W": "autocomplete",
+					"X": "autocomplete",
+					"Y": "autocomplete",
+					"Z": "autocomplete",
+
+					"Shift-A": "autocomplete",
+					"Shift-B": "autocomplete",
+					"Shift-C": "autocomplete",
+					"Shift-D": "autocomplete",
+					"Shift-E": "autocomplete",
+					"Shift-F": "autocomplete",
+					"Shift-G": "autocomplete",
+
+					"Shift-H": "autocomplete",
+					"Shift-I": "autocomplete",
+					"Shift-J": "autocomplete",
+					"Shift-K": "autocomplete",
+					"Shift-L": "autocomplete",
+					"Shift-M": "autocomplete",
+					"Shift-N": "autocomplete",
+
+					"Shift-O": "autocomplete",
+					"Shift-P": "autocomplete",
+					"Shift-Q": "autocomplete",
+					"Shift-R": "autocomplete",
+					"Shift-S": "autocomplete",
+					"Shift-T": "autocomplete",
+					"Shift-U": "autocomplete",
+
+					"Shift-V": "autocomplete",
+					"Shift-W": "autocomplete",
+					"Shift-X": "autocomplete",
+					"Shift-Y": "autocomplete",
+					"Shift-Z": "autocomplete",
+					"Ctrl-I": function(cm) {
+						server.showType(cm);
+					},
+					"Alt-D": function(cm) {
+						server.jumpToDef(cm);
+					},
+					"Alt-,": function(cm) {
+						server.jumpBack(cm);
+					},
+					"Ctrl-Q": function(cm) {
+						server.rename(cm);
+					},
+					"Ctrl-.": function(cm) {
+						server.selectName(cm);
+					}
+				})
+				editor.on("cursorActivity", function(cm) {
+					server.updateArgHints(cm);
+				});
+			});
+
+			editor.on('change', function() {
+				buttonSave.style.display = '';
+				if (documents[0].autoupdate === false) return;
+				clearTimeout(interval);
+				interval = setTimeout(update, 500);
+			});
+			var element = editor.getWrapperElement();
+			 // toolbar
+
+			var buttonUpdate = document.getElementById('renew');
+			var checkbox = document.getElementById("ck");
+			if (documents[0].autoupdate === true) checkbox.checked = true;
+			checkbox.addEventListener('click', function(event) {
+				event.stopPropagation();
+				documents[0].autoupdate = documents[0].autoupdate === false;
+				localStorage.codeeditor = JSON.stringify(documents);
+			}, false);
+			buttonUpdate.addEventListener('click', function(event) {
+				update();
+			}, false);
+			var buttonSave = document.getElementById("dCode");
+			buttonSave.addEventListener('click', function(event) {
+				save();
+				buttonSave.download = 'index.html';
+			}, false);
+			var buttonDownload = document.getElementById("dCode");
+			var buttonReset = document.getElementById("resetCode");
+			buttonReset.addEventListener('click', function(event) {
+				if (confirm('Are you sure?') === true) {
+					editor.setValue(defaultCode);
+					save();
+				}
+			}, false);
+
+			document.getElementById("pop").addEventListener('click', popup);
+
+			function popup() {
+				var element = document.getElementById('popup');
+				var update = function() {
+					element.style.left = ((window.innerWidth - element.offsetWidth) / 2) + 'px';
+					element.style.top = ((window.innerHeight - element.offsetHeight) / 2) + 'px';
+				};
+				window.addEventListener('load', update, false);
+				window.addEventListener('resize', update, false);
+				element.style.display = '';
+				element.style.left = ((window.innerWidth - element.offsetWidth) / 2) + 'px';
+				element.style.top = ((window.innerHeight - element.offsetHeight) / 2) + 'px';
+			}
+
+			 // events
+			document.addEventListener('drop', function(event) {
+				event.preventDefault();
+				event.stopPropagation();
+				var file = event.dataTransfer.files[0];
+				documents[0].filename = file.name;
+				documents[0].filetype = file.type;
+				var reader = new FileReader();
+				reader.onload = function(event) {
+					editor.setValue(event.target.result);
+				};
+				reader.readAsText(file);
+			}, false);
+			document.addEventListener('keydown', function(event) {
+				if (event.keyCode === 83 && (event.ctrlKey === true || event.metaKey === true)) {
+					event.preventDefault();
+					save();
+				}
+				if (event.keyCode === 13 && (event.ctrlKey === true || event.metaKey === true)) {
+					update();
+				}
+				if (event.keyCode === 27) {
+					toggle();
+				}
+			}, false);
+			 // actions
+
+			$('#fullscreem').click(function() {
+				screenfull.toggle(preview);
+				update()
+			});
+			var ca;
+			var update = function() {
+				var value = editor.getValue();
+				if (validate(value)) {
+					// remove previous iframe
+					if (preview.children.length > 0) {
+						preview.removeChild(preview.firstChild);
+					}
+					var iframe = document.createElement('iframe');
+					iframe.style.width = "100%";
+					iframe.style.height = "100%";
+					iframe.style.border = '0';
+					ca = iframe;
+					$(iframe).attr("scrolling", "no");
+					$(iframe).attr("id", "result");
+					$(iframe).css("backgroundColor", "#EFEFEF");
+					preview.appendChild(iframe);
+					var content = iframe.contentDocument || iframe.contentWindow.document;
+					value = value.replace('<script>', '<script>if ( window.innerWidth === 0 ) { window.innerWidth = parent.innerWidth; window.innerHeight = parent.innerHeight; }');
+					content.open();
+					content.write(value);
+					content.close();
+					iframe.onload = function() {
+						var c = $("#result").contents().find("canvas");
+						c.css("width", "100%");
+						c.css("height", "100%");
+					}
+				}
+
+			};
+
+			var errorLines = [];
+			var widgets = [];
+			var validate = function(value) {
+				return editor.operation(function() {
+					while (errorLines.length > 0) {
+						editor.removeLineClass(errorLines.shift(), 'background', 'errorLine');
+					}
+					for (var i = 0; i < widgets.length; i++) {
+						editor.removeLineWidget(widgets[i]);
+					}
+					widgets.length = 0;
+					// remove html
+					var string = '\n';
+					var lines = value.split('\n');
+					var lineCurrent = 0,
+						lineTotal = lines.length;
+					while (lineCurrent < lineTotal && lines[lineCurrent].indexOf('<script>') === -1) {
+						string += '\n';
+						lineCurrent++;
+					}
+					var lineStart = lineCurrent++;
+					while (lineCurrent < lineTotal && lines[lineCurrent].indexOf('<\/script>') === -1) {
+						string += lines[lineCurrent] + '\n';
+						lineCurrent++;
+					}
+					try {
+						var result = esprima.parse(string, {
+							tolerant: true
+						}).errors;
+
+						for (var i = 0; i < result.length; i++) {
+							var error = result[i];
+							var message = document.createElement('div');
+							message.className = 'esprima-error';
+							message.textContent = error.message.replace(/Line [0-9]+: /, '');
+							var lineNumber = error.lineNumber - 1;
+							errorLines.push(lineNumber);
+							editor.addLineClass(lineNumber, 'background', 'errorLine');
+							var widget = editor.addLineWidget(
+								lineNumber,
+								message
+							);
+							widgets.push(widget);
+						}
+					} catch (error) {
+						var message = document.createElement('div');
+						message.className = 'esprima-error';
+						message.textContent = error.message.replace(/Line [0-9]+: /, '');
+						var lineNumber = error.lineNumber - 1;
+						errorLines.push(lineNumber);
+						editor.addLineClass(lineNumber, 'background', 'errorLine');
+						var widget = editor.addLineWidget(
+							lineNumber,
+							message
+						);
+						widgets.push(widget);
+					}
+					return errorLines.length === 0;
+				});
+			};
+
+			var save = function() {
+				documents[0].code = editor.getValue();
+				localStorage.codeeditor = JSON.stringify(documents);
+				var blob = new Blob([editor.getValue()], {
+					type: documents[0].filetype
+				});
+				var objectURL = URL.createObjectURL(blob);
+				buttonDownload.href = objectURL;
+				var date = new Date();
+				buttonDownload.download = documents[0].filename;
+				//buttonSave.style.display = 'none';
+				buttonDownload.style.display = '';
+			};
+			update();
+
+			CodeMirror.commands.autocomplete = function(cm, pred) {
+				var cur = cm.getCursor();
+				if (!pred || pred()) setTimeout(function() {
+					if (!cm.state.completionActive)
+						cm.showHint({
+							completeSingle: false
+						});
+				}, 10);
+				return CodeMirror.Pass;
+			}
+		</script>
+	</body>
+
+</html>

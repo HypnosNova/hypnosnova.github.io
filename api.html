@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+		<meta name="viewport" content="width=device-width" />
+		<title>Nova——Three.js中文网</title>
+		<meta name="keywords" content="botany, responsive, bootstrap, free template, fluid layout, templatemo, html css" />
+		<meta name="description" content="Botany Template is free responsive template with a fluid background image." />
+		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<link href="templatemo_style.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="css/redli.css" />
+		<link rel="stylesheet" href="flexslider.css" type="text/css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="css/neonword.css" />
+		<link rel="stylesheet" type="text/css" href="css/borderlight.css" />
+		<link rel="stylesheet" type="text/css" href="css/scorllbar3.css"/>
+		<link rel="stylesheet" type="text/css" href="css/myCssLink.css" />
+		<!-- Modernizr -->
+		<script src="slider/modernizr.js"></script>
+
+	</head>
+
+	<body class="templatemo_juice_bg">
+		<div id="main_container">
+			<div class="container" id="home">
+				<div class="row col-wrap">
+					<div id="left_container" class="col col-md-3 col-sm-12">
+						<div class="templatemo_logo">
+							<div id="#neonword" class="orangeword2" style="font-size: 60px;font-weight: bold;">NOVA</div>
+							<iframe src="page/rednova.html" width="220px" height="220px"></iframe>
+						</div>
+						<nav id="main_nav" style="margin-top: 0px;">
+							<ul class="nav">
+								<li><a href="index.html" style="font-family: '微软雅黑';font-size: 20px;">首页动态</a>
+								</li>
+								<li><a href="tutorials.html" style="font-family: '微软雅黑';font-size: 20px;">在线教程</a>
+								</li>
+								<li class="active" style="font-family: '微软雅黑';font-size: 20px;"><a>☆&nbsp;&nbsp;API&nbsp;文档&nbsp;&nbsp;☆</a>
+								</li>
+								<li><a href="services.html" style="font-family: '微软雅黑';font-size: 20px;">实例世界</a>
+								</li>
+								<li><a href="portfolio.html" style="font-family: '微软雅黑';font-size: 20px;">资源下载</a>
+								</li>
+								<li><a href="contact.html" style="font-family: '微软雅黑';font-size: 20px;">关于本站</a>
+								</li>
+							</ul>
+						</nav>
+
+						<div>
+							<a href="http://sc.chinaz.com">
+								<img src="images/facebook.png" alt="Like us on Facebook">
+							</a>
+							<a href="#">
+								<img src="images/twitter.png" alt="Follow us on Twitter">
+							</a>
+							<a href="#">
+								<img src="images/rss.png" alt="RSS feeds">
+							</a>
+						</div>
+					</div>
+					<div id="right_container" class="col col-md-9 col-sm-12">
+
+						<div class="row">
+							<div class="col col-md-12">
+
+								<h2 style="color: #FF8800;font-family:'微软雅黑';">Three.js API文档<span style="position: absolute;right:5%;top:7px;font-size: 20px;background-color: argb(255,255,0,0.5);" onclick="showOrHide()" id="onoff">收起导航菜单</span></h2> 
+								<iframe id="newsFrame" src="page/docs/index.html" width="" height=""></iframe>
+
+							</div>
+						</div>
+					</div>
+					<div id="tool_container" class="col col-md-1 col-sm-12" style="display: none;">
+						sfsfg
+					</div>
+				</div>
+				<footer class="row credit">
+					<div class="col col-md-12">
+						<div id="templatemo_footer">
+							Follows MIT Liscence
+						</div>
+					</div>
+				</footer>
+			</div>
+		</div>
+
+		<!-- jQuery -->
+		<script src="js/jquery-1.7.1.min.js"></script>
+
+		<script type="text/javascript">
+			$("#newsFrame").load(function() {
+				//var clientHeight = $("#newsFrame").contents().find("body").height();
+				$(this).height(document.body.clientHeight - 165);
+			});
+			var isShow = true;
+
+			function showOrHide() {
+				isShow = !isShow;
+				if (isShow) {
+					$("#left_container").css("display", "");
+					$("#right_container").removeClass("col-md-11");
+					$("#right_container").addClass("col-md-9");
+					$("#tool_container").css("display", "none");
+					$("#onoff").text("收起导航菜单");
+				} else {
+					$("#left_container").css("display", "none");
+					$("#right_container").removeClass("col-md-9");
+					$("#right_container").addClass("col-md-11");
+					$("#tool_container").css("display", "");
+					$("#onoff").text("展开导航菜单");
+				}
+			}
+		</script>
+
+	</body>
+
+
+</html>
