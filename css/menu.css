@@ -76,8 +76,8 @@
     top: 0;
     left: 103px;
     margin: 0 0 0 20px;
-    _margin: 0; /*IE6 only*/
-    box-shadow: -1px 0 0 rgba(255,255,255,.3);      
+    _margin: 0; 
+    box-shadow: -1px 0 0 rgba(255,255,255,.3);
 }
 #menu ul ul ul{
     top: 0;
@@ -148,6 +148,7 @@
 }
 
 #menu ul ul li:first-child a:after {
+	float:left;
     left: -6px;
     top: 50%;
     margin-top: -6px;

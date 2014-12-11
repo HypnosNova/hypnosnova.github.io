@@ -210,6 +210,17 @@
 	animation: neon4 1.5s ease-in-out infinite alternate;
 
 }
+.greenword2 {
+
+	color: #34FF67;
+
+	-webkit-animation: neon4 1.5s ease-in-out infinite alternate;
+
+	-moz-animation: neon4 1.5s ease-in-out infinite alternate;
+
+	animation: neon4 1.5s ease-in-out infinite alternate;
+
+}
 
 .orangeword {
 
@@ -307,13 +318,13 @@
 
 	from {
 
-		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #B6FF00, 0 0 70px #B6FF00, 0 0 80px #B6FF00, 0 0 100px #B6FF00, 0 0 150px #B6FF00;
+		text-shadow: 0 0 10px #fff, 0 0 20px #dfd, 0 0 30px #bfb, 0 0 40px #9f9, 0 0 70px #7f7, 0 0 80px #5f5, 0 0 100px #3f3, 0 0 150px #1f1;
 
 	}
 
 	to {
 
-		text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #B6FF00, 0 0 35px #B6FF00, 0 0 40px #B6FF00, 0 0 50px #B6FF00, 0 0 75px #B6FF00;
+		text-shadow: 0 0 5px #fff, 0 0 10px #efe, 0 0 15px #dfd, 0 0 20px #cfc, 0 0 35px #bfb, 0 0 40px #afa, 0 0 50px #9f9, 0 0 75px #8f8;
 
 	}
 
