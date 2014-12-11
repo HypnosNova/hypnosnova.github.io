@@ -6,14 +6,13 @@
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 		<meta name="viewport" content="width=device-width" />
 		<title>Nova——Three.js中文网</title>
-		<meta name="description" content="Botany Template is free responsive template with a fluid background image." />
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 		<link href="templatemo_style.css" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" type="text/css" href="css/greenli.css" />
-		<link rel="stylesheet" href="flexslider.css" type="text/css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="css/blueli.css" />
+		<link rel="stylesheet" type="text/css" href="css/threed.css" />
 		<link rel="stylesheet" type="text/css" href="css/neonword.css" />
 		<link rel="stylesheet" type="text/css" href="css/borderlight.css" />
-		<link rel="stylesheet" type="text/css" href="css/scorllbar3.css" />
+		<link rel="stylesheet" type="text/css" href="css/scorllbar.css" />
 		<link rel="stylesheet" type="text/css" href="css/myCssLink.css" />
 		<link rel="stylesheet" type="text/css" href="css/galleryimghover.css" />
 		<!-- Modernizr -->
@@ -25,20 +24,20 @@
 		<div id="main_container">
 			<div class="container" id="home">
 				<div class="row col-wrap">
-					<div id="left_container" class="col col-md-3 col-sm-12">
+					<div id="left_container" class="col col-md-2 col-sm-12" style="height: 100%;">
 						<div class="templatemo_logo">
-							<div id="#neonword" class="greenword2" style="font-size: 60px;font-weight: bold;">NOVA</div>
-							<iframe src="page/greennova.html" width="220px" height="220px"></iframe>
+							<div id="#neonword" class="blueword2" style="font-size: 52px;font-weight: bold;">NOVA</div>
+							<iframe src="page/nova.html" width="150px" height="150px"></iframe>
 						</div>
 						<nav id="main_nav" style="margin-top: 0px;">
 							<ul class="nav">
-								<li><a href="index.html" style="font-family: '微软雅黑';font-size: 20px;">首页动态</a>
+								<li><a href="home.html" style="font-family: '微软雅黑';font-size: 20px;">首页动态</a>
 								</li>
-								<li><a href="tutorial.html" style="font-family: '微软雅黑';font-size: 20px;">在线教程</a>
+								<li><a href="tutorials.html" style="font-family: '微软雅黑';font-size: 20px;">在线教程</a>
 								</li>
 								<li><a href="api.html" style="font-family: '微软雅黑';font-size: 20px;">API&nbsp;文档</a>
 								</li>
-								<li class="active" style="font-family: '微软雅黑';font-size: 20px;"><a>☆&nbsp;&nbsp;实例世界&nbsp;&nbsp;☆</a>
+								<li class="active" style="font-family: '微软雅黑';font-size: 20px;"><a>实例世界</a>
 								</li>
 								<li><a href="portfolio.html" style="font-family: '微软雅黑';font-size: 20px;">资源下载</a>
 								</li>
@@ -57,14 +56,13 @@
 							<a href="#">
 								<img src="images/rss.png" alt="RSS feeds">
 							</a>
-						</div>4
+						</div>
 					</div>
-					<div id="right_container" class="col col-md-9 col-sm-12">
+					<div id="right_container" class="col col-md-10 col-sm-12">
 
 						<div class="row" style="margin-top: -15px">
 							<div class="col col-md-12">
-								<h2 style="color: #FF8800;font-family:'微软雅黑';">这里是实例的世界</h2>
-								<h3>你可以身临优秀的WebGL实例中，并且可以下载源码以供学习参考。</h3>
+								<h2 style="color: #9977FF;font-family:'微软雅黑';margin-top:35px;" class="Three-Dee">这里有各种各样的实例可供在线浏览或源码下载</h2> 
 								<div class="col col-md-4">
 									<figure class="overlay-figure">
 										<div class="overlay-figure-content">
@@ -86,15 +84,16 @@
 								<div class="col col-md-4">
 									<figure class="overlay-figure">
 										<div class="overlay-figure-content">
-											<img src="images/gallery/maze.jpg" width="100%">
+											<img src="images/gallery/pac.jpg" width="100%">
 											<div class="overlay-figure-background"></div>
 										</div>
 										<figcaption class="overlay-figure-caption">
 											<div class="contents">
 												<div class="contents-stack">
-													<h2 class="title">This Will Hurt</h2>
+													<h2 class="title">WebGL吃豆子</h2>
 													<div class="separator"></div>
-													<p class="text">The pain is how you know that it's working. The duration of the pain is a reminder that you're the one working.</p>
+													<p class="text">吃完所有的豆子并且不要被白色敌人抓住。方向键控制。一共3个关卡。</p>
+													<div class="btndiv" style="font-size: 16px;width: 100px;margin: 20px auto;" onclick="$('.masker').fadeIn(600,function(){$('.show').attr('src','http://hypnosnova.github.io/WebGL_Pacman')})">实例演示</div>
 												</div>
 											</div>
 										</figcaption>

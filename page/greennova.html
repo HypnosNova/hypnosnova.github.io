@@ -170,8 +170,8 @@
 
 				// color
 
-				gl_FragColor = vec4( vec3( 0.4 - n, 1.5 - n, 0.8 - n ), 1.0 );
-
+				//gl_FragColor = vec4( vec3( 1.5 - n, 1.0 - n, 0.5 - n ), 1.0 );
+				gl_FragColor = vec4( vec3( 0.5 - n, 1.5 - n, 0.7 - n ), 1.0 );
 				// normal
 
 				const float e = 0.001;
@@ -288,7 +288,7 @@
 				scene.addObject(mesh);
 
 				renderer = new THREE.WebGLRenderer();
-				renderer.setClearColorHex(0x050505, 0);
+				renderer.setClearColorHex(0x000000, 0);
 
 				container.appendChild(renderer.domElement);
 

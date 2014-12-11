@@ -1,150 +1,789 @@
-<!DOCTYPE html>
 <html>
-
 	<head>
+		<title>GLSL Sandbox</title>
 		<meta charset="utf-8">
-		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-		<meta name="viewport" content="width=device-width" />
-		<title>Nova——Three.js中文网</title>
-		<meta name="description" content="Nova是一个中文WebGL学习网站，提供完全免费的学习资料，教程与实例。" />
-		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-		<link href="templatemo_style.css" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" type="text/css" href="css/blueli.css"/>
-		<link rel="stylesheet" href="flexslider.css" type="text/css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="css/neonword.css" />
-		<link rel="stylesheet" type="text/css" href="css/borderlight.css"/>
-		<link rel="stylesheet" type="text/css" href="css/myCssLink.css"/>
-		<link rel="stylesheet" type="text/css" href="css/scorllbar.css"/>
-		<link rel="stylesheet" type="text/css" href="css/threed.css"/>
-		<link rel="icon" type="image/x-icon" href="images/ico.ico"/>
-		<link rel="shortcut icon" type="image/x-icon" href="images/ico.ico"/>
-		<!-- Modernizr -->
-		<script src="slider/modernizr.js"></script>
-		
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 	</head>
+<style>
+	
 
-	<body class="templatemo_juice_bg">
-		<div id="main_container">
-			<div class="container" id="home">
-				<div class="row col-wrap">
-					<div id="left_container" class="col col-md-3 col-sm-12">
-						<div class="templatemo_logo">
-							<div id="#neonword" class="blueword2" style="font-size: 60px;font-weight: bold;">NOVA</div>
-							<!--<canvas id="nc" width="220px" height="220px"></canvas>-->
-							<iframe src="" width="" height="220px" id="novaTitle"></iframe>
-						</div>
-						<nav id="main_nav" style="margin-top: 0px;">
-							<ul class="nav">
-								<li class="active" style="font-family: '微软雅黑';font-size: 20px;"><a>☆&nbsp;&nbsp;首页动态&nbsp;&nbsp;☆</a>
-								</li>
-								<li><a href="tutorials.html" style="font-family: '微软雅黑';font-size: 20px;">在线教程</a>
-								</li>
-								<li><a href="api.html" style="font-family: '微软雅黑';font-size: 20px;">API&nbsp;文档</a>
-								</li>
-								<li><a href="gallery.html" style="font-family: '微软雅黑';font-size: 20px;">实例世界</a>
-								</li>
-								<li><a href="portfolio.html" style="font-family: '微软雅黑';font-size: 20px;">资源下载</a>
-								</li>
-								<li><a href="contact.html" style="font-family: '微软雅黑';font-size: 20px;">关于本站</a>
-								</li>
-							</ul>
-						</nav>
+			body {
 
-						<div>
-							<a href="#">
-								<img src="images/facebook.png" alt="Like us on Facebook">
-							</a>
-							<a href="#">
-								<img src="images/twitter.png" alt="Follow us on Twitter">
-							</a>
-							<a href="#">
-								<img src="images/rss.png" alt="RSS feeds">
-							</a>
-						</div>
-					</div>
-					<div id="right_container" class="col col-md-9 col-sm-12">
-
-						<div class="row">
-							<div class="col col-md-12">
-
-								<h2 style="color: #9977FF;font-family:'微软雅黑';" class="Three-Dee">欢迎来到Nova——Three.js中文网</h2> 
-								<canvas id="c"></canvas>
-								<iframe id="newsFrame" src="" width="" height="" scrolling="no" style="display: none;"></iframe>
-
-							</div>
-						</div>
-
-						<article class="row">
-							<div class="col col-md-12">
-								<img src="images/hello.jpg" alt="Templatemo Pic 1" class="img_left shine_blue">
-								<h3 style="font-family: '微软雅黑';color: #aaaaff;">Three.js介绍</h3> 
-								<p>
-									Three.js是一个伟大的开源<a href="http://baike.baidu.com/view/2833220.htm" class="frontLink">WebGL</a>库（遵循<a href="http://baike.baidu.com/view/7769463.htm?fr=aladdin" class="frontLink">MIT协议</a>），WebGL允许JavaScript操作GPU，在浏览器端实现真正意义的3D。Three.js项目的目标是为了创建轻量级且低复杂度的3D库，它能让你更方便的进行WebGL编程。
-								</p>
-								<p><a href="#" class="btn btn-primary" role="button">了解更多</a>
-								</p>
-							</div>
-						</article>
-						<article class="row">
-							<div class="col col-md-12">
-								<img src="images/hello.jpg" alt="Templatemo Pic 1" class="img_left shine_blue">
-								<h3 style="font-family: '微软雅黑';color: #aaaaff;">选择合适的IDE</h3>
-								<p>
-									Three.js是一个伟大的开源<a href="http://baike.baidu.com/view/2833220.htm" class="frontLink">WebGL</a>库（遵循<a href="http://baike.baidu.com/view/7769463.htm?fr=aladdin" class="frontLink">MIT协议</a>），WebGL允许JavaScript操作GPU，在浏览器端实现真正意义的3D。Three.js项目的目标是为了创建轻量级且低复杂度的3D库，它能让你更方便的进行WebGL编程。
-								</p>
-								<p><a href="#" class="btn btn-primary" role="button">了解更多</a>
-								</p>
-							</div>
-						</article>
-						<article class="row">
-							<div class="col col-md-12">
-								<img src="images/hello.jpg" alt="Templatemo Pic 1" class="img_left shine_blue">
-								<h3 style="font-family: '微软雅黑';color: #aaaaff;">Three.js介绍</h3> 
-								<p>
-									Three.js是一个伟大的开源<a href="http://baike.baidu.com/view/2833220.htm" class="frontLink">WebGL</a>库（遵循<a href="http://baike.baidu.com/view/7769463.htm?fr=aladdin" class="frontLink">MIT协议</a>），WebGL允许JavaScript操作GPU，在浏览器端实现真正意义的3D。Three.js项目的目标是为了创建轻量级且低复杂度的3D库，它能让你更方便的进行WebGL编程。
-								</p>
-								<p><a href="#" class="btn btn-primary" role="button">了解更多</a>
-								</p>
-							</div>
-						</article>
-					</div>
-				</div>
-				<footer class="row credit">
-					<div class="col col-md-12">
-						<div id="templatemo_footer">
-							Follows MIT Liscence
-						</div>
-					</div>
-				</footer>
-			</div>
-		</div>
-
-		<!-- jQuery -->
-		<script src="js/jquery-1.7.1.min.js"></script>
-		<script src="js/prefixfree.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/loadingCanvas.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript">
-			var v = $("#newsFrame").css("width");
-			var w=parseInt(v.substr(0,v.length-2));
-			$("#newsFrame").css("height",w/960*420+"px")
-			window.onresize = function() {
-				v = $("#newsFrame").css("width");
-				w=parseInt(v.substr(0,v.length-2));
-				$("#newsFrame").css("height",w/960*420+"px")
+				background-color: #000000;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
 			}
-			window.onload = function() {
-				$('#newsFrame').load(function() {
-					$("#c").css("display","none");
-					$("#newsFrame").css("display","");
-				});
-				$("#novaTitle").attr("src", "page/nova.html");
-				$("#newsFrame").attr("src", "cuteslide.html");
-			}
-			
-			
+
+		
+</style>
+	<body style="cursor: default;">
+		<script src="js/backgroundNoise/lzma.js"></script>
+		<script src="js/backgroundNoise/jquery.js"></script>
+		<script src="js/backgroundNoise/helpers.js"></script>
+		<script src="js/backgroundNoise/codemirror.js"></script>
+
+		<script id="example" type="x-shader/x-fragment">
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform float time;
+varying vec2 surfacePosition;
+
+#define MAX_ITER 3
+void main( void ) {
+	vec2 sp = surfacePosition;//vec2(.4, .7);
+	vec2 p = sp*6.0 - vec2(125.0);
+	vec2 i = p;
+	float c = 1.0;
+	
+	float inten = 0.01;
+
+	for (int n = 0; n < MAX_ITER; n++) 
+	{
+		float t = time/10.0;
+		i = p + vec2(cos(t - i.x) + sin(t + i.y), sin(t - i.y) + cos(t + i.x));
+		c += 1.0/length(vec2(p.x / (sin(i.x+t)/inten),p.y / (cos(i.y+t)/inten)));
+	}
+	c /= float(MAX_ITER);
+	c = 1.5-sqrt(c);
+	gl_FragColor = vec4(vec3(c*c*c*c), 999.0) + vec4(0.0, 0.3, 0.5, 0.5);
+
+}
 		</script>
 
-	</body>
+		<script id="fragmentShader" type="x-shader/x-fragment">
+
+			
+
+			#ifdef GL_ES
+			precision mediump float;
+			#endif
+
+			uniform vec2 resolution;
+			uniform sampler2D texture;
+
+			void main() {
+
+				vec2 uv = gl_FragCoord.xy / resolution.xy;
+				gl_FragColor = texture2D( texture, uv );
+
+			}
+
+		
+		</script>
+
+		<script id="vertexShader" type="x-shader/x-vertex">
 
 
-</html>
+			attribute vec3 position;
+
+			void main() {
+
+				gl_Position = vec4( position, 1.0 );
+
+			}
+
+		
+		</script>
+
+		<script id="surfaceVertexShader" type="x-shader/x-vertex">
+
+
+			attribute vec3 position;
+			attribute vec2 surfacePosAttrib;
+			varying vec2 surfacePosition;
+
+			void main() {
+
+				surfacePosition = surfacePosAttrib;
+				gl_Position = vec4( position, 1.0 );
+
+			}
+
+		
+		</script>
+
+		<script>
+			initialize_helper();
+
+			var compressor=initialize_compressor();
+
+			if ( !window.requestAnimationFrame ) {
+
+				window.requestAnimationFrame = ( function() {
+
+					return window.webkitRequestAnimationFrame ||
+						window.mozRequestAnimationFrame ||
+						window.oRequestAnimationFrame ||
+						window.msRequestAnimationFrame ||
+						function ( callback, element ) {
+							window.setTimeout( callback, 1000 / 1000 );
+						};
+
+				} )();
+
+			}
+
+			// Get older browsers safely through init code, so users can read the
+			// message about how to download newer browsers.
+			if (!Date.now) {
+				Date.now = function() {
+					return +new Date();
+				};
+			}
+
+			// Greetings to Iq/RGBA! ;)
+
+			var quality = 4, quality_levels = [ 0.5, 1, 2, 4, 8 ];
+			var toolbar, compileButton, fullscreenButton, compileTimer, errorLines = [];
+			var code, canvas, gl, buffer, currentProgram, vertexPosition, screenVertexPosition, panButton,
+			parameters = { startTime: Date.now(), time: 0, mouseX: 0.5, mouseY: 0.5, screenWidth: 0, screenHeight: 0 },
+			surface = { centerX: 0, centerY: 0, width: 1, height: 1, isPanning: false, isZooming: false, lastX: 0, lastY: 0 },
+			frontTarget, backTarget, screenProgram, getWebGL, resizer = {}, compileOnChangeCode = true;
+
+			init();
+			if (gl) { animate(); }
+
+			function init() {
+
+
+				canvas = document.createElement( 'canvas' );
+				canvas.style.display = 'block';
+				document.body.appendChild( canvas );
+
+				toolbar = document.createElement( 'div' );
+				toolbar.style.position = 'absolute';
+				toolbar.style.top = '25px';
+				toolbar.style.left = '25px';
+				document.body.appendChild( toolbar );
+
+				// from helper.js
+				add_server_buttons();
+
+				// Initialise WebGL
+
+				try {
+
+					gl = canvas.getContext( 'experimental-webgl', { preserveDrawingBuffer: true } );
+
+				} catch( error ) { }
+
+				if ( !gl ) {
+
+					alert("WebGL not supported, but code will be shown.");
+
+				} else {
+
+					// Create vertex buffer (2 triangles)
+
+					buffer = gl.createBuffer();
+					gl.bindBuffer( gl.ARRAY_BUFFER, buffer );
+					gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( [ - 1.0, - 1.0, 1.0, - 1.0, - 1.0, 1.0, 1.0, - 1.0, 1.0, 1.0, - 1.0, 1.0 ] ), gl.STATIC_DRAW );
+
+					// Create surface buffer (coordinates at screen corners)
+
+					surface.buffer = gl.createBuffer();
+				}
+
+				// initialize code editor
+				code = CodeMirror(document.body, {
+					lineNumbers: true,
+					matchBrackets: true,
+					indentWithTabs: true,
+					tabSize: 8,
+					indentUnit: 8,
+					onChange: function () {
+						if (compileOnChangeCode) {
+							clearTimeout(compileTimer);
+							compileTimer = setTimeout(compile, 1);
+						}
+					}
+				});
+				code.getWrapperElement().style.display = 'none';
+
+				resizer.offsetMouseX = 0;
+				resizer.offsetMouseY = 0;
+				resizer.isResizing = false;
+				resizer.currentWidth = 100;
+				resizer.currentHeight = 100;
+				resizer.minWidth = 100;
+				resizer.minHeight = 100;
+				resizer.maxWidth = 100;
+				resizer.maxHeight = 100;
+				resizer.element = document.createElement( 'div' );
+				resizer.element.className = 'resizer';
+				code.getWrapperElement().appendChild(resizer.element);
+
+				resizer.element.addEventListener( 'mousedown', function ( event ) {
+					if (event.button !== 2) {
+						resizer.offsetMouseX = event.clientX - resizer.currentWidth;
+						resizer.offsetMouseY = event.clientY - resizer.currentHeight;
+						resizer.isResizing = true;
+						event.preventDefault();
+					}
+				}, false );
+				
+				if (gl) {
+
+					var noContextMenu = function ( event ) {
+
+						event.preventDefault();
+
+					};
+
+					//canvas.addEventListener( 'mousedown', surfaceMouseDown, false );
+					//panButton.addEventListener( 'mousedown', surfaceMouseDown, false );
+
+					canvas.addEventListener( 'contextmenu', noContextMenu, false);
+					//panButton.addEventListener( 'contextmenu', noContextMenu, false);
+				}
+				
+				var clientXLast, clientYLast;
+
+				document.addEventListener( 'mousemove', function ( event ) {
+
+					var clientX = event.clientX;
+					var clientY = event.clientY;
+
+					if (clientXLast == clientX && clientYLast == clientY)
+						return;
+
+					clientXLast = clientX;
+					clientYLast = clientY;
+
+					stopHideUI();
+
+					var codeElement, dx, dy;
+					
+					parameters.mouseX = clientX / window.innerWidth;
+					parameters.mouseY = 1 - clientY / window.innerHeight;
+						
+					if (resizer.isResizing) {
+
+						resizer.currentWidth = Math.max(Math.min(clientX - resizer.offsetMouseX, resizer.maxWidth), resizer.minWidth);
+						resizer.currentHeight = Math.max(Math.min(clientY - resizer.offsetMouseY, resizer.maxHeight), resizer.minWidth);
+						codeElement = code.getWrapperElement();
+						codeElement.style.width = resizer.currentWidth + 'px';
+						codeElement.style.height = resizer.currentHeight + 'px';
+						code.refresh();
+						event.preventDefault();
+
+					} else if (surface.isPanning) {
+
+						dx = clientX - surface.lastX;
+						dy = clientY - surface.lastY;
+						surface.centerX -= dx * surface.width / window.innerWidth;
+						surface.centerY += dy * surface.height / window.innerHeight;
+						surface.lastX = clientX;
+						surface.lastY = clientY;
+						computeSurfaceCorners();
+						event.preventDefault();
+
+					} else if (surface.isZooming) {
+
+						dx = clientX - surface.lastX;
+						dy = clientY - surface.lastY;
+						surface.height *= Math.pow(0.997, dx + dy);
+						surface.lastX = clientX;
+						surface.lastY = clientY;
+						computeSurfaceCorners();
+						event.preventDefault();
+
+					}
+				}, false );
+
+				function settleDown ( event ) {
+					resizer.isResizing = surface.isPanning = surface.isZooming = false;
+					document.body.style.cursor = 'default';
+					//panButton.style.cursor = 'move';
+				}
+
+				function mouseLeave(event) {
+					settleDown(event);
+
+					if (!isCodeVisible())
+						startHideUITimer();
+				}
+
+				document.addEventListener( 'mouseup', settleDown, false );
+				document.addEventListener( 'mouseleave', mouseLeave, false );
+
+				onWindowResize();
+				window.addEventListener( 'resize', onWindowResize, false );
+				load_url_code();
+
+				compileScreenProgram();
+
+			}
+
+			function isCodeVisible() {
+				return code && code.getWrapperElement().style.display !== 'none';
+			}
+
+			var hideUITimer;
+			var isUIHidden = false;
+
+			function startHideUITimer () {
+
+				stopHideUITimer();
+				if (!isUIHidden && !isCodeVisible())
+					hideUITimer = window.setTimeout(onHideUITimer, 1000 * 5 );
+
+				function onHideUITimer() {
+
+					stopHideUITimer();
+					if (!isUIHidden && !isCodeVisible()) {
+
+						isUIHidden = true;
+						toolbar.style.display = 'none';
+						document.body.style.cursor = 'none';
+					}
+				}
+
+				function stopHideUITimer () {
+
+					if (hideUITimer) {
+
+						window.clearTimeout(hideUITimer);
+						hideUITimer = 0;
+					}
+				}
+			}
+
+			function stopHideUI () {
+
+				if (isUIHidden) {
+
+					isUIHidden = false;
+					toolbar.style.display = '';
+					document.body.style.cursor = '';
+				}
+				startHideUITimer();
+			}
+
+
+			function computeSurfaceCorners() {
+
+				if (gl) {
+
+					surface.width = surface.height * parameters.screenWidth / parameters.screenHeight;
+					
+					var halfWidth = surface.width * 0.5, halfHeight = surface.height * 0.5;
+					
+					gl.bindBuffer( gl.ARRAY_BUFFER, surface.buffer );
+					gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( [
+						surface.centerX - halfWidth, surface.centerY - halfHeight,
+						surface.centerX + halfWidth, surface.centerY - halfHeight,
+						surface.centerX - halfWidth, surface.centerY + halfHeight,
+						surface.centerX + halfWidth, surface.centerY - halfHeight,
+						surface.centerX + halfWidth, surface.centerY + halfHeight,
+						surface.centerX - halfWidth, surface.centerY + halfHeight ] ), gl.STATIC_DRAW );
+
+				}
+
+			}
+
+			function resetSurface() {
+
+				surface.centerX = surface.centerY = 0;
+				surface.height = 1;
+				computeSurfaceCorners();
+
+			}
+
+			function compile() {
+			
+				if (!gl) {
+				
+					if (!getWebGL) {
+					
+						getWebGL = true;
+						compileButton.addEventListener( 'click', function ( event ) {
+
+							document.location = 'http://get.webgl.org/';
+
+						}, false );
+						compileButton.title = 'http://get.webgl.org/';
+						compileButton.style.color = '#ff0000';
+						compileButton.textContent = 'WebGL not supported!';
+						set_save_button('hidden');
+						
+					}
+					return;
+					
+				}
+
+				var program = gl.createProgram();
+				var fragment = code.getValue();
+				var vertex = document.getElementById( 'surfaceVertexShader' ).textContent;
+
+				var vs = createShader( vertex, gl.VERTEX_SHADER );
+				var fs = createShader( fragment, gl.FRAGMENT_SHADER );
+
+				if ( vs == null || fs == null ) return null;
+
+				gl.attachShader( program, vs );
+				gl.attachShader( program, fs );
+
+				gl.deleteShader( vs );
+				gl.deleteShader( fs );
+
+				gl.linkProgram( program );
+
+				if ( !gl.getProgramParameter( program, gl.LINK_STATUS ) ) {
+
+					var error = gl.getProgramInfoLog( program );
+
+					compileButton.title = error;
+					console.error( error );
+
+					console.error( 'VALIDATE_STATUS: ' + gl.getProgramParameter( program, gl.VALIDATE_STATUS ), 'ERROR: ' + gl.getError() );
+//					compileButton.style.color = '#ff0000';
+//					compileButton.textContent = 'compiled with errors';
+
+					set_save_button('hidden');
+
+					return;
+
+				}
+
+				if ( currentProgram ) {
+
+					gl.deleteProgram( currentProgram );
+					setURL( fragment );
+
+				}
+
+				currentProgram = program;
+
+//				compileButton.style.color = '#00ff00';
+//				compileButton.textContent = 'compiled successfully';
+
+				set_save_button('visible');
+
+				//panButton.style.display = (fragment.indexOf('varying vec2 surfacePosition;') >= 0) ? 'inline' : 'none';
+
+				// Cache uniforms
+
+				cacheUniformLocation( program, 'time' );
+				cacheUniformLocation( program, 'mouse' );
+				cacheUniformLocation( program, 'resolution' );
+				cacheUniformLocation( program, 'backbuffer' );
+				cacheUniformLocation( program, 'surfaceSize' );
+
+				// Load program into GPU
+
+				gl.useProgram( currentProgram );
+
+				// Set up buffers
+
+				surface.positionAttribute = gl.getAttribLocation(currentProgram, "surfacePosAttrib");
+				gl.enableVertexAttribArray(surface.positionAttribute);
+
+				vertexPosition = gl.getAttribLocation(currentProgram, "position");
+				gl.enableVertexAttribArray( vertexPosition );
+
+			}
+
+			function compileScreenProgram() {
+			
+				if (!gl) { return; }
+
+				var program = gl.createProgram();
+				var fragment = document.getElementById( 'fragmentShader' ).textContent;
+				var vertex = document.getElementById( 'vertexShader' ).textContent;
+
+				var vs = createShader( vertex, gl.VERTEX_SHADER );
+				var fs = createShader( fragment, gl.FRAGMENT_SHADER );
+
+				gl.attachShader( program, vs );
+				gl.attachShader( program, fs );
+
+				gl.deleteShader( vs );
+				gl.deleteShader( fs );
+
+				gl.linkProgram( program );
+
+				if ( !gl.getProgramParameter( program, gl.LINK_STATUS ) ) {
+
+					console.error( 'VALIDATE_STATUS: ' + gl.getProgramParameter( program, gl.VALIDATE_STATUS ), 'ERROR: ' + gl.getError() );
+
+					return;
+
+				}
+
+				screenProgram = program;
+
+				gl.useProgram( screenProgram );
+
+				cacheUniformLocation( program, 'resolution' );
+				cacheUniformLocation( program, 'texture' );
+
+				screenVertexPosition = gl.getAttribLocation(screenProgram, "position");
+				gl.enableVertexAttribArray( screenVertexPosition );
+
+			}
+
+			function cacheUniformLocation( program, label ) {
+
+				if ( program.uniformsCache === undefined ) {
+
+					program.uniformsCache = {};
+
+				}
+
+				program.uniformsCache[ label ] = gl.getUniformLocation( program, label );
+
+			}
+
+			//
+
+			function createTarget( width, height ) {
+
+				var target = {};
+
+				target.framebuffer = gl.createFramebuffer();
+				target.renderbuffer = gl.createRenderbuffer();
+				target.texture = gl.createTexture();
+
+				// set up framebuffer
+
+				gl.bindTexture( gl.TEXTURE_2D, target.texture );
+				gl.texImage2D( gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null );
+
+				gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE );
+				gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE );
+
+				gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
+				gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+
+				gl.bindFramebuffer( gl.FRAMEBUFFER, target.framebuffer );
+				gl.framebufferTexture2D( gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, target.texture, 0 );
+
+				// set up renderbuffer
+
+				gl.bindRenderbuffer( gl.RENDERBUFFER, target.renderbuffer );
+
+				gl.renderbufferStorage( gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, width, height );
+				gl.framebufferRenderbuffer( gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, target.renderbuffer );
+
+				// clean up
+
+				gl.bindTexture( gl.TEXTURE_2D, null );
+				gl.bindRenderbuffer( gl.RENDERBUFFER, null );
+				gl.bindFramebuffer( gl.FRAMEBUFFER, null);
+
+				return target;
+
+			}
+
+			function createRenderTargets() {
+
+				frontTarget = createTarget( parameters.screenWidth, parameters.screenHeight );
+				backTarget = createTarget( parameters.screenWidth, parameters.screenHeight );
+
+			}
+
+			//
+
+			var dummyFunction = function() {};
+
+
+			//
+			
+			function htmlEncode(str){
+
+				return String(str)
+					.replace(/&/g, '&amp;')
+					.replace(/"/g, '&quot;')
+					.replace(/'/g, '&#39;')
+					.replace(/</g, '&lt;')
+					.replace(/>/g, '&gt;');
+
+			}
+
+			//
+
+			function createShader( src, type ) {
+			
+				var shader = gl.createShader( type );
+				var line, lineNum, lineError, index = 0, indexEnd;
+
+				while (errorLines.length > 0) {
+					line = errorLines.pop();
+					code.setLineClass(line, null);
+					code.clearMarker(line);
+				}
+
+				gl.shaderSource( shader, src );
+				gl.compileShader( shader );
+
+				//compileButton.title = '';
+
+				if ( !gl.getShaderParameter( shader, gl.COMPILE_STATUS ) ) {
+
+					var error = gl.getShaderInfoLog( shader );
+					
+					// Remove trailing linefeed, for FireFox's benefit.
+					while ((error.length > 1) && (error.charCodeAt(error.length - 1) < 32)) {
+						error = error.substring(0, error.length - 1);
+					}
+
+					//compileButton.title = error;
+					console.error( error );
+
+					//compileButton.style.color = '#ff0000';
+					//compileButton.textContent = 'compiled with errors';
+
+					set_save_button('hidden');
+
+					while (index >= 0) {
+						index = error.indexOf("ERROR: 0:", index);
+						if (index < 0) { break; }
+						index += 9;
+						indexEnd = error.indexOf(':', index);
+						if (indexEnd > index) {
+							lineNum = parseInt(error.substring(index, indexEnd));
+							if ((!isNaN(lineNum)) && (lineNum > 0)) {
+								index = indexEnd + 1;
+								indexEnd = error.indexOf("ERROR: 0:", index);
+								lineError = htmlEncode((indexEnd > index) ? error.substring(index, indexEnd) : error.substring(index));
+								line = code.setMarker(lineNum - 1, '<abbr title="' + lineError + '">' + lineNum + '</abbr>', "errorMarker");
+								code.setLineClass(line, "errorLine");
+								errorLines.push(line);
+							}
+						}
+					}
+
+					return null;
+
+				}
+
+				return shader;
+
+			}
+
+			//
+
+			function onWindowResize( event ) {
+
+				var isMaxWidth = ((resizer.currentWidth === resizer.maxWidth) || (resizer.currentWidth === resizer.minWidth)),
+					isMaxHeight = ((resizer.currentHeight === resizer.maxHeight) || (resizer.currentHeight === resizer.minHeight));
+
+				toolbar.style.width = window.innerWidth - 47 + 'px';
+
+				resizer.isResizing = false;
+				resizer.maxWidth = window.innerWidth - 75;
+				resizer.maxHeight = window.innerHeight - 125;
+				if (isMaxWidth || (resizer.currentWidth > resizer.maxWidth)) {
+					resizer.currentWidth = resizer.maxWidth;
+				}
+				if (isMaxHeight || (resizer.currentHeight > resizer.maxHeight)) {
+					resizer.currentHeight = resizer.maxHeight;
+				}
+				if (resizer.currentWidth < resizer.minWidth) { resizer.currentWidth = resizer.minWidth; }
+				if (resizer.currentHeight < resizer.minHeight) { resizer.currentHeight = resizer.minHeight; }
+
+				code.getWrapperElement().style.top = '75px';
+				code.getWrapperElement().style.left = '25px';
+				code.getWrapperElement().style.width = resizer.currentWidth + 'px';
+				code.getWrapperElement().style.height = resizer.currentHeight + 'px';
+
+				canvas.width = window.innerWidth / quality;
+				canvas.height = window.innerHeight / quality;
+
+				canvas.style.width = window.innerWidth + 'px';
+				canvas.style.height = window.innerHeight + 'px';
+
+				parameters.screenWidth = canvas.width;
+				parameters.screenHeight = canvas.height;
+
+				computeSurfaceCorners();
+
+				if (gl) {
+				
+					gl.viewport( 0, 0, canvas.width, canvas.height );
+
+					createRenderTargets();
+					
+				}
+			}
+
+			//
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+				render();
+
+			}
+
+			function render() {
+
+				if ( !currentProgram ) return;
+
+				parameters.time = Date.now() - parameters.startTime;
+
+				// Set uniforms for custom shader
+
+				gl.useProgram( currentProgram );
+
+				gl.uniform1f( currentProgram.uniformsCache[ 'time' ], parameters.time / 1000 );
+				gl.uniform2f( currentProgram.uniformsCache[ 'mouse' ], parameters.mouseX, parameters.mouseY );
+				gl.uniform2f( currentProgram.uniformsCache[ 'resolution' ], parameters.screenWidth, parameters.screenHeight );
+				gl.uniform1i( currentProgram.uniformsCache[ 'backbuffer' ], 0 );
+				gl.uniform2f( currentProgram.uniformsCache[ 'surfaceSize' ], surface.width, surface.height );
+
+				gl.bindBuffer( gl.ARRAY_BUFFER, surface.buffer );
+				gl.vertexAttribPointer( surface.positionAttribute, 2, gl.FLOAT, false, 0, 0 );
+				
+				gl.bindBuffer( gl.ARRAY_BUFFER, buffer );
+				gl.vertexAttribPointer( vertexPosition, 2, gl.FLOAT, false, 0, 0 );
+
+				gl.activeTexture( gl.TEXTURE0 );
+				gl.bindTexture( gl.TEXTURE_2D, backTarget.texture );
+
+				// Render custom shader to front buffer
+
+				gl.bindFramebuffer( gl.FRAMEBUFFER, frontTarget.framebuffer );
+
+				gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
+				gl.drawArrays( gl.TRIANGLES, 0, 6 );
+
+				// Set uniforms for screen shader
+
+				gl.useProgram( screenProgram );
+
+				gl.uniform2f( screenProgram.uniformsCache[ 'resolution' ], parameters.screenWidth, parameters.screenHeight );
+				gl.uniform1i( screenProgram.uniformsCache[ 'texture' ], 1 );
+
+				gl.bindBuffer( gl.ARRAY_BUFFER, buffer );
+				gl.vertexAttribPointer( screenVertexPosition, 2, gl.FLOAT, false, 0, 0 );
+				
+				gl.activeTexture( gl.TEXTURE1 );
+				gl.bindTexture( gl.TEXTURE_2D, frontTarget.texture );
+
+				// Render front buffer to screen
+
+				gl.bindFramebuffer( gl.FRAMEBUFFER, null );
+
+				gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
+				gl.drawArrays( gl.TRIANGLES, 0, 6 );
+
+				// Swap buffers
+
+				var tmp = frontTarget;
+				frontTarget = backTarget;
+				backTarget = tmp;
+
+			}
+		</script>
+		
+
+<iframe style="position:absolute;left:0;top:0;width: 100%;height: 100%;border: 0px;" src="home.html"></iframe>
+
+	
+
+</body></html>

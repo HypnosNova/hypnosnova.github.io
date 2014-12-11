@@ -16,12 +16,13 @@ a:hover, a:focus { color: #CCFF66; }
 }
 
 .templatemo_juice_bg {
-  	background: url(images/indexbg.jpg) no-repeat center center fixed; 
-  	-webkit-background-size: cover;
+  	/*background: url(images/indexbg.jpg) no-repeat center center fixed; */
+  	/*-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
   	background-size: cover;
-  	overflow-x: hidden;
+  	overflow-x: hidden;*/
+  	background-color: transparent;
 }
 
 .templatemo_flower_1 {
