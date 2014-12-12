@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="page.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/whitescorllbar.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/tomorrow-night-bright.css" />
+		<script src="../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			hljs.initHighlightingOnLoad();
+		</script>
+		<style>
+			.col {
+				width: 32%;
+				float: left;
+				margin-left: 1%;
+			}
+			. {
+				padding: 0;
+				margin: 0;
+			}
+			.flip {
+				-webkit-perspective: 800;
+				width: 90%;
+				height: 100px;
+				position: relative;
+				margin: 0px auto;
+			}
+			.flip .card.flipped {
+				-webkit-transform: rotatex(-180deg);
+			}
+			.flip .card {
+				width: 100%;
+				height: 100%;
+				-webkit-transform-style: preserve-3d;
+				-webkit-transition: 0.5s;
+			}
+			.flip .card .face {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				-webkit-backface-visibility: hidden;
+				z-index: 2;
+				font-family: Georgia;
+				font-size: 2em;
+				text-align: center;
+				line-height: 20px;
+			}
+			.flip .card .front {
+				position: absolute;
+				z-index: 1;
+				background: black;
+				color: white;
+				cursor: pointer;
+			}
+			.flip .card .back {
+				-webkit-transform: rotatex(-180deg);
+				background: blue;
+				background: white;
+				color: black;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div>
+			<div class="col">
+				<div class="flip">
+					<div class="card">
+						<div class="face front">
+							Front
+						</div>
+						<div class="face back">
+							Back
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="flip">
+					<div class="card">
+						<div class="face front">
+							Front
+						</div>
+						<div class="face back">
+							Back
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="flip">
+					<div class="card">
+						<div class="face front">
+							Front
+						</div>
+						<div class="face back">
+							Back
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</body>
+	<script src="../../js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript">
+		$('.flip').mouseenter(function() {
+			$(this).find('.card').addClass('flipped');
+			return false;
+		});
+
+		$('.flip').mouseleave(function() {
+			$(this).find('.card').removeClass('flipped');
+			return false;
+		});
+	</script>
+
+</html>
