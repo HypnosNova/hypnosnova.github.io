@@ -23,6 +23,7 @@
 	top: 50%;
 	margin-top: -20px;
 	filter: none !important;
+	cursor: url(../../images/cur/pointer.cur), pointer!important;
 }
 
 .cs-circleslight .br-previous {

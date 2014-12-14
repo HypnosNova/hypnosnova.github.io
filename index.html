@@ -5,24 +5,24 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 	</head>
 <style>
-	
-
-			body {
-
+		body {
 				background-color: #000000;
 				margin: 0;
 				padding: 0;
 				overflow: hidden;
+				cursor: url('images/cur/index.cur'),default;
 			}
 
-		
 </style>
 	<body style="cursor: default;">
+		<link rel="stylesheet" type="text/css" href="pets/css/pet.css"/>
+		<link rel="stylesheet" type="text/css" href="css/jquery.contextmenu.css"/>
 		<script src="js/backgroundNoise/lzma.js"></script>
 		<script src="js/backgroundNoise/jquery.js"></script>
 		<script src="js/backgroundNoise/helpers.js"></script>
 		<script src="js/backgroundNoise/codemirror.js"></script>
-
+		<script src="js/jquery.cookie.js" type="text/javascript"></script>
+		<script src="js/jquery.contextmenu.js" type="text/javascript" charset="utf-8"></script>
 		<script id="example" type="x-shader/x-fragment">
 #ifdef GL_ES
 precision mediump float;
@@ -49,13 +49,10 @@ void main( void ) {
 	c /= float(MAX_ITER);
 	c = 1.5-sqrt(c);
 	gl_FragColor = vec4(vec3(c*c*c*c), 999.0) + vec4(0.0, 0.3, 0.5, 0.5);
-
 }
 		</script>
 
 		<script id="fragmentShader" type="x-shader/x-fragment">
-
-			
 
 			#ifdef GL_ES
 			precision mediump float;
@@ -71,38 +68,24 @@ void main( void ) {
 
 			}
 
-		
 		</script>
 
 		<script id="vertexShader" type="x-shader/x-vertex">
-
-
 			attribute vec3 position;
-
 			void main() {
-
 				gl_Position = vec4( position, 1.0 );
-
 			}
-
-		
 		</script>
 
 		<script id="surfaceVertexShader" type="x-shader/x-vertex">
-
-
 			attribute vec3 position;
 			attribute vec2 surfacePosAttrib;
 			varying vec2 surfacePosition;
 
 			void main() {
-
 				surfacePosition = surfacePosAttrib;
 				gl_Position = vec4( position, 1.0 );
-
 			}
-
-		
 		</script>
 
 		<script>
@@ -147,16 +130,11 @@ void main( void ) {
 			if (gl) { animate(); }
 
 			function init() {
-
-
 				canvas = document.createElement( 'canvas' );
 				canvas.style.display = 'block';
 				document.body.appendChild( canvas );
 
 				toolbar = document.createElement( 'div' );
-				toolbar.style.position = 'absolute';
-				toolbar.style.top = '25px';
-				toolbar.style.left = '25px';
 				document.body.appendChild( toolbar );
 
 				// from helper.js
@@ -786,4 +764,57 @@ void main( void ) {
 
 	
 
-</body></html>
+</body>
+	<div class="drag" id="pet" style=""></div>
+</html>
+<script src="pets/js/pet.js" type="text/javascript" charset="utf-8"></script>
+	<script language="javascript" type="text/javascript">
+	initPet();
+			$(function() {
+				var _move = false; //移动标记
+				var _x, _y; //鼠标离控件左上角的相对位置
+				$(".drag").mousedown(function(e) {
+					_move = true;
+					_x = e.pageX - parseInt($(".drag").css("left"));
+					_y = e.pageY - parseInt($(".drag").css("top"));
+					$(".drag").fadeTo(500, 0.5); //点击后开始拖动并透明显示
+				});
+				$(document).mousemove(function(e) {
+					if (_move) {
+						var x = e.pageX - _x; //移动时根据鼠标位置计算控件左上角的绝对位置
+						var y = e.pageY - _y;
+						$(".drag").css({
+							top: y,
+							left: x
+						}); //控件新位置
+						$(".drag").css("cursor","url('images/cur/move.cur'),default");
+					}
+				}).mouseup(function() {
+					_move = false;
+					$(".drag").css("cursor","url('images/cur/index.cur'),default");
+					$(".drag").fadeTo(500, 1); //松开鼠标后停止移动并恢复成不透明
+				});
+			});
+	
+	$(function() {
+		$('#pet').contextPopup({
+			title: '章鱼猫-酷毙',
+			items: [{
+				label: '自我介绍',
+				icon: 'icons/shopping-basket.png',
+				action: function() {
+					var str="我是来自爪喵星的章鱼猫，才出生没几天。造物主看我萌萌哒，就把我包养起来了。"
+					createDialogLife(str);
+					setTimeout(function(){createDialogLife("造物主说：要建立一个很酷的世界，于是就给我取名『酷毙』。")},str.length*250+2000);
+				}
+			},{
+				label: '自我介绍',
+				icon: 'icons/shopping-basket.png',
+				action: function() {
+					createDialogLife("我是来自爪喵星的章鱼猫，才出生没几天。造物主看我挺萌的，就把我包养起来了。");
+				}
+			}]
+		});
+	});
+		
+</script>

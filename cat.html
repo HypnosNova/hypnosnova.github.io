@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>无标题文档</title>
+		<style type="text/css">
+			.drag {
+				position: absolute;
+				border: 2px solid #000;
+				width: 100px;
+				height: 100px;
+				cursor: pointer;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+		</style>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script language="javascript" type="text/javascript">
+			$(function() {
+				var _move = false; //移动标记
+				var _x, _y; //鼠标离控件左上角的相对位置
+				$(".drag").mousedown(function(e) {
+					_move = true;
+					_x = e.pageX - parseInt($(".drag").css("left"));
+					_y = e.pageY - parseInt($(".drag").css("top"));
+					$(".drag").fadeTo(20, 0.5); //点击后开始拖动并透明显示
+				});
+				$(document).mousemove(function(e) {
+					if (_move) {
+						var x = e.pageX - _x; //移动时根据鼠标位置计算控件左上角的绝对位置
+						var y = e.pageY - _y;
+						$(".drag").css({
+							top: y,
+							left: x
+						}); //控件新位置
+					}
+				}).mouseup(function() {
+					_move = false;
+					$(".drag").fadeTo("fast", 1); //松开鼠标后停止移动并恢复成不透明
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<div class="drag">div拖拽</div>
+	</body>
+
+</html>

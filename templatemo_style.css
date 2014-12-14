@@ -5,9 +5,11 @@
 
 body {
 	background-color: #222222;
+	cursor: url('images/cur/index.cur'),default;
+	
 }
 
-a { color: #f55b1f; }
+a { color: #f55b1f; cursor: url('images/cur/pointer.cur'),pointer;}
 a:hover, a:focus { color: #CCFF66; }
 
 .templatemo_logo {
