@@ -5,15 +5,30 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" href="../css/menu.css" type="text/css" media="screen" />
 		<script src="../js/jquery-1.7.1.min.js" type="text/javascript" charset="utf-8"></script>
-		<link rel="stylesheet" type="text/css" href="../css/whitescorllbar.css" />
+		<link rel="stylesheet" type="text/css" href="../css/scorllbar.css" />
 	</head>
 
 	<body>
 		<ul id="menu">
 			<li>
-				<a>首页</a>
+				<a href="teach/home.html" target="pageF">首页</a>
 			</li>
 			<li><a>WebGL</a>
+				<ul>
+					<li><a>第一章</a>
+						<ul>
+							<li><a href="webgl_teach/aa.html" target="pageF">第一节：准备工作</a>
+								<ul>
+									<li><a href="teach/aa.html#task1" target="pageF">任务一：了解浏览器对于WebGL的支持</a>
+									</li>
+									<li><a href="teach/aa.html#task2" target="pageF">任务二：搭建开发环境并测试一些实例</a>
+									</li>
+								</ul>
+							</li>
+							
+						</ul>
+					</li>
+				</ul>
 			</li>
 			<li>
 				<a>Three.js</a>
@@ -76,25 +91,26 @@
 					</li>
 				</ul>
 			</li>
-			<li><a>THREEx.js</a>
+			<li><a>实例教程</a>
 			</li>
-			<li><a>Cannon.js</a>
-			</li>
-			<li><a target="_blank" href="editor.html">IDE</a>
+			<li><a target="_blank" href="editor.html">在线IDE</a>
 			</li>
 		</ul>
 
-		<iframe id="pageF" name="pageF" src="" width="100%" height="650px" frameborder=0></iframe>
+		<iframe id="pageF" name="pageF" src="" width="100%" height="600px" frameborder=0></iframe>
 
 	</body>
 	<script type="text/javascript">
-		function pageClose(){
-			$('#firstClass').css('display','')
-			$("#pageF").css("display","none");
-		}
-		function pageShow(){
-			$("#pageF").css("display","");
-		}
+	$(function(){
+		$("#pageF").attr("src","teach/home.html");
+	});
+//		function pageClose(){
+//			$('#firstClass').css('display','')
+//			$("#pageF").css("display","none");
+//		}
+//		function pageShow(){
+//			$("#pageF").css("display","");
+//		}
 	</script>
 
 </html>

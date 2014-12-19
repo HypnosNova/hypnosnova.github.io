@@ -11,6 +11,7 @@
 	cursor: url('../../images/cur/pointer.cur'),pointer;
 }
 .textBubble {
+	pointer-events: none;
 	position: absolute;
 	width: 210px;
 	height: 150px;
@@ -23,6 +24,7 @@
 	cursor: url('../../images/cur/index.cur'),default;
 }
 .textLine {
+	pointer-events: none;
 	text-align: center;
 	position: relative;
 	font-family: "微软雅黑";

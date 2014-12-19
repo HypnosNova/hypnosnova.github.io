@@ -13,15 +13,13 @@
 			<h3>本节你能学到：<p>&nbsp;&nbsp;&nbsp;&nbsp;（1）不同浏览器对于WebGL的支持情况<br/>&nbsp;&nbsp;&nbsp;&nbsp;（2）搭建合适的开发环境并测试一些实例</p></h3>
 		</div>
 		<hr color=#FFFFFF SIZE=2>
-		<p class="article">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现代浏览器都慢慢地拥有可以直接访问Javascript的更强大功能。您可以使用新的HTML5标签轻松地添加视频和音频的，通过使用HTML5的画布（Canvas）创建交互式组件。 另一个新增加的功能集合是对WebGL的支持。有了WebGL，你可以直接利用显卡的处理资源，创造高性能2D和3D计算机图形。直接用JavaScript进行WebGL编程来创建3D场景和动画是一个非常复杂且容易出错流程。Three.js是一个能使得这个容易得多的库。下面的列表显示的事情，Three.js能使之更为简单：</p>
+		<p class="article">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebGL目前作为Html5的准3D标准，越来越多的浏览器开始支持WebGL。使用WebGL，你可以直接利用显卡的处理资源，创造高性能2D和3D计算机图形。但是你要提前知道，直接用JavaScript进行WebGL编程来创建3D场景和动画是一个复杂且容易出错流程，学习难度会远大于通过使用Three.js来进行WebGL的编程。你可以做如下选择：</p>
 		<div style="margin-left: 40px;">
-			<p style="font-size: 16px;">● 创建简单和复杂的3D几何图形</p>
-			<p style="font-size: 16px;">● 通过3D场景制作动画</p>
-			<p style="font-size: 16px;">● 给你的物体添加纹理和材质</p>
-			<p style="font-size: 16px;">● 从别的3D模型软件中导入物体</p>
-			<p style="font-size: 16px;">● 创建有灵魂的2D图形</p>
+			<p style="font-size: 16px;">1.直接学习WebGL原生的编程过程</p>
+			<p style="font-size: 16px;">2.跳过WebGL的教学，先学习Three.js</p>
 		</div>
-		<p name="task1" id="task1" class="article">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在第一节中，我们将直接潜入Three.js，创造几个例子并告诉你Three.js是如何工作的。在初级阶段，我们不会深入到所有的技术细节之中，技术细节你会在以后的章节中学到。在我们开始之前，让我们快速看最重要的浏览器那部分以及他们对WebGL的支持：</p>
+		<p class="article">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果你选择直接学习WebGL的原生编程过程，你会了解到WebGL的本质。如果你想要先学Three.js，你会更加轻松且高效的运用WebGL做出超酷的项目与作品。无论选择哪种方式，你都可以随时去看另一部分教程。无论是使用WebGL原生的方式，还是使用Three.js，两者可以混合在项目中使用，因此当你学完某一方式的一部分内容后，可以去了解另一种方式，体会不同之处，各自的优缺点。</p>
+		<p name="task1" id="task1" class="article">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在我们开始之前，让我们快速看最重要的浏览器那部分以及他们对WebGL的支持：</p>
 		<hr color=#44FF44 SIZE=1>
 		<p style="font-size: 14px;"><span style="margin-left: 50px;">浏览器</span><span style="margin-left: 150px;">支持情况</span>
 		</p>
@@ -53,10 +51,11 @@
 				<th width="65%" style="font-weight: 200;">Internet Explorer已经是主流浏览器中很长时间不支持 WebGL。从IE11开始，微软加入了对WebGL的支持。</th>
 			</tr>
 		</table>
-		<p class="article">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基本上，Three.js可以运行在任何现代浏览器，除了IE以外的大多数版本。所以， 如果你想使用IE浏览器的旧版本，你有两个选择：你可以通过使用谷歌浏览器内嵌框架得到的WebGL，从<a target="_blank" href="https://developers.google.com/chrome/chrome-frame/">这里</a>下载支持。您还可以使用iewebgl插件， 你可以从
+		<p class="article">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基本上，WebGL可以运行在任何现代浏览器，除了IE以外的大多数版本。所以， 如果你想使用IE浏览器的旧版本，你有两个选择：你可以通过使用谷歌浏览器内嵌框架得到的WebGL，从<a target="_blank" href="https://developers.google.com/chrome/chrome-frame/">这里</a>下载支持。您还可以使用iewebgl插件， 你可以从
 			<a target="_blank" href="http://iewebgl.com/">这里</a>下载，把它安装在IE浏览器内并启用WebGL。</p>
 		<p style="font-size: 14px;color: #FF0000;width: 70%;margin-left: 15%;">【注意：谷歌官方已经停止对Google Chrome Frame的维护并不再对IE10进行支持。】</p>
-		<p style="font-size: 14px;color: #FF77FF;width: 70%;margin-left: 15%;">【目前Three.js的作者正在使用新的基于CSS-3D标准的渲染器，他能给很多浏览器提供支持（包括IE10）。除了桌面浏览器，一部分手机和平板电脑浏览器也支持CSS-3D。】</p>
+		
+		
 		<p class="article">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在本节教程，你将创建你的第一个3D场景，并能够运行在上述任何一项浏览器。我们不会引入太多复杂Three.js 的功能，但在这一节的结尾，你会创造一个Three.js场景，你可以在下面的截图看到：</p>
 		<img src="img/a1.jpg" />
 		<p class="article">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在建立第一个场景的过程中，你将了解Three.js的基础知识，并创建你的第一个动画。在你对这个例子开始工作前，我们将首先看一下你所需要哪些开发工具。</p>

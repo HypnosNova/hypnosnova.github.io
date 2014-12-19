@@ -122,6 +122,7 @@
 		<script src="js/jquery-1.7.1.min.js"></script>
 		<script src="js/prefixfree.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/loadingCanvas.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var v = $("#newsFrame").css("width");
 			var w=parseInt(v.substr(0,v.length-2));
@@ -139,7 +140,7 @@
 				$("#novaTitle").attr("src", "page/nova.html");
 				$("#newsFrame").attr("src", "cuteslide.html");
 			}
-			
+			$.cookie("nova_current_page","home.html");
 			
 		</script>
 

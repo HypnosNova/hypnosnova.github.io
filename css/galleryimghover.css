@@ -2,6 +2,8 @@
 	position: relative;
 	display: table;
 	border: solid 1px black;
+	margin: 1% 1% 1% 1%;
+	width: 21%;
 }
 .overlay-figure-content {
 	width: 100%;

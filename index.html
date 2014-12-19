@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>GLSL Sandbox</title>
+		<title>Three.js中文网</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 	</head>
@@ -760,7 +760,7 @@ void main( void ) {
 		</script>
 		
 
-<iframe style="position:absolute;left:0;top:0;width: 100%;height: 100%;border: 0px;" src="home.html"></iframe>
+<iframe style="position:absolute;left:0;top:0;width: 100%;height: 100%;border: 0px;" id="main"></iframe>
 
 	
 
@@ -770,6 +770,11 @@ void main( void ) {
 <script src="pets/js/pet.js" type="text/javascript" charset="utf-8"></script>
 	<script language="javascript" type="text/javascript">
 	initPet();
+	if(current_page){
+		$("#main").attr("src",current_page);
+	}else{
+		$("#main").attr("src","home.html");
+	}
 			$(function() {
 				var _move = false; //移动标记
 				var _x, _y; //鼠标离控件左上角的相对位置
@@ -808,10 +813,10 @@ void main( void ) {
 					setTimeout(function(){createDialogLife("造物主说：要建立一个很酷的世界，于是就给我取名『酷毙』。")},str.length*250+2000);
 				}
 			},{
-				label: '自我介绍',
+				label: '我的工作',
 				icon: 'icons/shopping-basket.png',
 				action: function() {
-					createDialogLife("我是来自爪喵星的章鱼猫，才出生没几天。造物主看我挺萌的，就把我包养起来了。");
+					createDialogLife("我不只是单纯的萌宠，我还管理小饼干，统计探险家数量，给你们提供帮助等一大堆工作。");
 				}
 			}]
 		});

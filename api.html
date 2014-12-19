@@ -17,7 +17,6 @@
 		<link rel="stylesheet" type="text/css" href="css/myCssLink.css" />
 		<!-- Modernizr -->
 		<script src="slider/modernizr.js"></script>
-
 	</head>
 
 	<body class="templatemo_juice_bg">
@@ -85,14 +84,14 @@
 
 		<!-- jQuery -->
 		<script src="js/jquery-1.7.1.min.js"></script>
-
+		<script src="js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			$("#newsFrame").load(function() {
 				//var clientHeight = $("#newsFrame").contents().find("body").height();
 				$(this).height(document.body.clientHeight - 120);
 			});
 			var isShow = true;
-
+			$.cookie("nova_current_page","api.html");
 //			function showOrHide() {
 //				isShow = !isShow;
 //				if (isShow) {

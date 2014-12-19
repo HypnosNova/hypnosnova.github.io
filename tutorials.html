@@ -80,13 +80,13 @@
 
 		<!-- jQuery -->
 		<script src="js/jquery-1.7.1.min.js"></script>
-
+		<script src="js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			$("#newsFrame").load(function() {
 				//var clientHeight = $("#newsFrame").contents().find("body").height();
 				$(this).height(document.body.clientHeight);
 			});
-			
+			$.cookie("nova_current_page","tutorials.html");
 		</script>
 
 	</body>
