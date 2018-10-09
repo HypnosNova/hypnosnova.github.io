@@ -37,7 +37,7 @@ class TopBar extends React.Component {
 						);
 					})}
 					<Menu.Item key="Editor">
-						<a href="http://www.baidu.com" target="blank">{LANGUAGE.EDITOR[this.props.language]}</a>
+						<a href="https://hypnosnova.github.io/Nova-Editor/" target="blank">{LANGUAGE.EDITOR[this.props.language]}</a>
 					</Menu.Item>
 					<Menu.Item key="Language" style={{ float: "right" }}>
 						<Dropdown overlay={<Menu onClick={(item) => {
