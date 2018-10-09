@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Empty Framework</title>
+  </head>
+
+  <body>
+    <video id="video" autoplay loop webkit-playsinline style="display:none">
+      <source src="assets/video/sintel.mp4" type='video/ogg; codecs="theora, vorbis"' />
+    </video>
+    <script src="https://cdn.bootcss.com/lodash.js/4.17.5/lodash.min.js"></script>
+    <script src="../lib/three.min.js"></script>
+    <script src="../build/nova.js"></script>
+    <script>
+      let app = new NOVA.App();
+      let video, texture, material, mesh;
+      let meshes = [];
+      let materials = [];
+      let xgrid = 10;
+      let ygrid = 5;
+      let bind = new NOVA.Bind({ z: 0 });
+      init();
+
+      function init() {
+        app.world.camera.position.z = 500;
+        video = document.getElementById('video');
+        texture = new THREE.VideoTexture(video);
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.format = THREE.RGBFormat;
+
+        let ux = 1 / xgrid;
+        let uy = 1 / ygrid;
+        let xsize = 480 / xgrid;
+        let ysize = 204 / ygrid;
+        let parameters = { color: 0xffffff, map: texture };
+
+        for (let i = 0; i < xgrid; i++) {
+          for (let j = 0; j < ygrid; j++) {
+            let geometry = new THREE.PlaneGeometry(xsize, ysize);
+            change_uvs(geometry, ux, uy, i, j);
+            material = new THREE.MeshBasicMaterial(parameters);
+            materials.push(material);
+            material.saturation = 1 - j / ygrid;
+            mesh = new THREE.Mesh(geometry, material);
+            mesh.position.set((i - xgrid / 2 + 0.5) * xsize, (j - ygrid / 2 + 0.5) * ysize, 0);
+            app.world.scene.add(mesh);
+            meshes.push(mesh);
+            bind.add(mesh.position, {
+              z: (z) => {
+                return Math.sin((i + j) / 2 + z) * 128;
+              }
+            });
+          }
+        }
+        app.renderer.autoClear = false;
+      }
+
+      function change_uvs(geometry, unitx, unity, offsetx, offsety) {
+        var faceVertexUvs = geometry.faceVertexUvs[0];
+        for (var i = 0; i < faceVertexUvs.length; i++) {
+          var uvs = faceVertexUvs[i];
+          for (var j = 0; j < uvs.length; j++) {
+            var uv = uvs[j];
+            uv.x = (uv.x + offsetx) * unitx;
+            uv.y = (uv.y + offsety) * unity;
+          }
+        }
+      }
+
+      app.logicLoop.add(() => {
+        bind.z += 0.04;
+      });
+    </script>
+  </body>
+
+</html>

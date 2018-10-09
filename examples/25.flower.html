@@ -1,0 +1,304 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+  </head>
+  <body>
+    <script src="https://cdn.bootcss.com/lodash.js/4.17.5/lodash.min.js"></script>
+    <script src="../lib/three.min.js"></script>
+    <script src="js/controls/OrbitControls.js"></script>
+    <script src="../build/nova.js"></script>
+    <script src="js/THREE.MeshLine.js"></script>
+    <script src="js/noise/simplex-noise.min.js"></script>
+    <script src="js/gui/dat.gui.min.js"></script>
+    <script>
+      function rangeMap(val, inputMin, inputMax, outputMin, outputMax) {
+        return (outputMax - outputMin) * ((val - inputMin) / (inputMax - inputMin)) + outputMin;
+      }
+
+      function clamp(val, min, max) {
+        return Math.max(Math.min(val, max), min);
+      }
+
+      function rand(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      function inOutExpo(t, b, c, d) {
+        if (t == 0) return b;
+        if (t == d) return b + c;
+        if ((t /= d / 2) < 1) return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
+        return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
+      }
+
+      function outExpo(t, b, c, d) {
+        return t == d ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
+      }
+
+      let app = new NOVA.App({
+        renderer: {
+          logarithmicDepthBuffer: true
+        }
+      });
+
+      class Walker {
+        constructor(config) {
+          this.simplex = config.simplex;
+          this.total = config.total;
+          this.x = config.x;
+          this.y = config.y;
+          this.dir = config.dir;
+          this.speed = config.speed;
+          this.delta = config.delta;
+          this.time = config.time;
+          this.angleRange = config.angleRange;
+          this.away = config.away;
+          this.depth = config.depth;
+          this.position = new THREE.Vector3(this.x, this.y, 0);
+          this.path = [];
+          this.build();
+        }
+
+        build() {
+          for (let i = 0; i < this.total; i++) {
+            this.step(i / this.total);
+          }
+        }
+
+        step(p) {
+          // progress the time for noise
+          this.time += this.delta;
+
+          // get noise values for angle and speed
+          this.angle = rangeMap(this.simplex.noise2D(this.time, 0), -1, 1, -this.angleRange, this.angleRange);
+          this.speed = rangeMap(this.simplex.noise2D(this.time, 1000), -1, 1, 0, 0.01);
+
+          // apply noise values
+          this.dir += this.angle;
+          this.position.x += Math.cos(this.dir) * this.speed;
+          this.position.y += Math.sin(this.dir) * this.speed;
+
+          // grow away or toward the camera
+          if (this.away) {
+            this.position.z = rangeMap(p, 0, 1, this.depth / 2, -this.depth / 2);
+          } else {
+            this.position.z = rangeMap(p, 0, 1, -this.depth / 2, this.depth / 2);
+          }
+
+          // push new position into the path array
+          this.path.push({
+            x: this.position.x,
+            y: this.position.y,
+            z: this.position.z
+          });
+        }
+      }
+
+      class FlowerWorld extends NOVA.World {
+        constructor(app) {
+          super(app);
+          this.setupFlowerArguments();
+          this.setupLines();
+          this.setupOrbit();
+          this.setupControls();
+          this.reset();
+          this.logicLoop.add(() => {
+            this.loop();
+          });
+        }
+
+        setupFlowerArguments() {
+          this.count = 3;
+          this.stems = 5;
+          this.angleRange = 0.01;
+          this.depth = 5;
+          this.noiseSpeed = 0.0003;
+          this.iterations = 3000;
+          this.hue = 100;
+          this.hueRange = 90;
+          this.lightness = 60;
+        }
+
+        setupOrbit() {
+          this.orbit = new THREE.OrbitControls(this.camera, this.app.renderer.domElement);
+          this.orbit.enableDamping = true;
+          this.orbit.dampingFactor = 0.2;
+          this.orbit.enableKeys = false;
+        }
+
+        setupControls() {
+          var gui = new dat.GUI({ name: 'Simplex Flower GUI' });
+          gui.add(this, 'count', 0, 20).step(1)
+            .onChange(() => { this.reset(); });
+          gui.add(this, 'stems', 0, 20).step(1)
+            .onChange(() => { this.reset(); });
+          gui.add(this, 'angleRange', 0.002, 0.018)
+            .onChange(() => { this.reset(); });
+          gui.add(this, 'depth', 0, 10)
+            .onChange(() => { this.reset(); });
+          gui.add(this, 'noiseSpeed', 0.000001, 0.0005).step(0.000001)
+            .onChange(() => { this.reset(); });
+          gui.add(this, 'iterations', 500, 8000).step(1)
+            .onChange(() => { this.reset(); });
+          gui.add(this, 'hue', 0, 360).step(1)
+            .onChange(() => { this.reset(); });
+          gui.add(this, 'hueRange', 0, 180).step(1)
+            .onChange(() => { this.reset(); });
+          gui.add(this, 'lightness', 0, 100).step(1)
+            .onChange(() => { this.reset(); });
+          gui.add(this, 'reset');
+        }
+
+        setupLines() {
+          this.meshes = [];
+          this.meshGroup = new THREE.Object3D();
+          this.meshGroupScale = 1;
+          this.meshGroupScaleTarget = 1;
+          this.scene.add(this.meshGroup);
+        }
+
+        generate() {
+          this.simplex = new SimplexNoise();
+          this.edge = 0;
+          this.scene.background = new THREE.Color('#000');
+
+          for (let i = 0; i < this.count; i++) {
+            // setup a new walker/wanderer
+            let centered = Math.random() > 0.5;
+            let walker = new Walker({
+              simplex: this.simplex,
+              total: this.iterations,
+              x: centered ? 0 : rand(-1, 1),
+              y: centered ? 0 : rand(-1, 1),
+              dir: (i / (this.count)) * ((Math.PI * 2) / this.stems),
+              speed: 0,
+              delta: this.noiseSpeed,
+              angleRange: this.angleRange,
+              away: 0,
+              depth: this.depth,
+              time: i * 1000
+            });
+            let geometry = new THREE.Geometry();
+            let line = new MeshLine();
+
+            // grab each path point and push it to the geometry
+            for (let j = 0, len = walker.path.length; j < len; j++) {
+              let p = walker.path[j];
+              let x = p.x;
+              let y = p.y;
+              let z = p.z;
+              this.edge = Math.max(this.edge, Math.abs(x), Math.abs(y));
+              geometry.vertices.push(new THREE.Vector3(x, y, z));
+            }
+
+            // set the thickness of the line and assign the geometry
+            line.setGeometry(geometry, (p) => {
+              let size = 1;
+              let n = size - Math.abs(rangeMap(p, 0, 1, -size, size)) + 0.1;
+              return n;
+            });
+
+            // create new material based on the controls
+            let material = new MeshLineMaterial({
+              blending: THREE.AdditiveBlending,
+              color: new THREE.Color(`hsl(${360 + this.hue + rangeMap(i, 0, this.count, -this.hueRange, this.hueRange)}, 100%, ${this.lightness}%)`),
+              depthTest: false,
+              opacity: 1,
+              transparent: true,
+              lineWidth: 0.04,
+              resolution: this.resolution
+            });
+
+            // create meshes for all of the stems/reflections
+            for (let k = 0; k < this.stems; k++) {
+              let mesh = new THREE.Mesh(line.geometry, material);
+              mesh.rotation.z = rangeMap(k, 0, this.stems, 0, Math.PI * 2);
+              this.meshes.push(mesh);
+              this.meshGroup.add(mesh);
+            }
+          }
+        }
+
+        worldToScreen(vector, camera) {
+          vector.project(camera);
+          let cx = window.innerWidth / 2;
+          let cy = window.innerHeight / 2;
+          vector.x = (vector.x * cx) + cx;
+          vector.y = -(vector.y * cy) + cy;
+          return vector;
+        }
+
+        reset() {
+          // empty out meshes array
+          if (this.meshes) {
+            this.meshes.length = 0;
+          }
+
+          // remove all children from mesh group
+          if (this.meshGroup) {
+            while (this.meshGroup.children.length) {
+              this.meshGroup.remove(this.meshGroup.children[0]);
+            }
+          }
+
+          // reset the camera
+          this.camera.position.set(0, 0, 10);
+          this.camera.lookAt(this.scene.position);
+
+          // initialize progres values
+          this.progress = 0; // overall progress ticker
+          this.progressed = false; // has run once
+          this.progressModulo = 0; // resets progress on modulus
+          this.progressEffective = 0; // progress amount to use
+          this.progressEased = 0; // eased progress
+          this.generate();
+
+          requestAnimationFrame(() => {
+            // scale until the flower roughly fits within the viewport
+            let tick = 0;
+            let exit = 50;
+            let scale = 1;
+            this.meshGroup.scale.set(scale, scale, scale);
+            let scr = this.worldToScreen(new THREE.Vector3(0, this.edge, 0), this.camera);
+            while (scr.y < window.innerHeight * 0.2 && tick <= exit) {
+              scale -= 0.05;
+              scr = this.worldToScreen(new THREE.Vector3(0, this.edge * scale, 0), this.camera);
+              tick++;
+            }
+            this.meshGroupScaleTarget = scale;
+          });
+        }
+
+        loop() {
+          // handle all the funky progress math
+          // there is a cleaner way of doing this, I'll find it
+          this.progress += 0.005;
+          if (this.progress > 1) {
+            this.progressed = true;
+          }
+          this.progressModulo = this.progress % 2;
+          this.progressEffective = this.progressModulo < 1 ? this.progressModulo : 1 - (this.progressModulo - 1);
+          this.progressEased = this.progressed ? inOutExpo(this.progressEffective, 0, 1, 1) : outExpo(this.progressEffective, 0, 1, 1);
+
+          // loop over all meshes and update their opacity and visibility
+          let i = this.meshes.length;
+          while (i--) {
+            let mesh = this.meshes[i];
+            mesh.material.uniforms.opacity.value = clamp(this.progressEffective * 2, 0, 1);
+            mesh.material.uniforms.visibility.value = this.progressEased;
+          }
+
+          // ease the scale of the mesh
+          this.meshGroupScale += (this.meshGroupScaleTarget - this.meshGroupScale) * 0.3;
+          this.meshGroup.scale.set(this.meshGroupScale, this.meshGroupScale, this.meshGroupScale);
+
+          // update orbit controls
+          this.orbit.update();
+        }
+      }
+
+      app.world = new FlowerWorld(app);
+    </script>
+  </body>
+</html>

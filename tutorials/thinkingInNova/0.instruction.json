@@ -1,0 +1,162 @@
+{
+    "type": "ContextFrame",
+    "sideWidth": 200,
+    "children": [
+        {
+            "type": "DragonHead",
+            "title": {
+                "zh": "开始",
+                "en": "Beginning"
+            },
+            "discription": {
+                "zh": "本教程适合熟悉Three.js并且有项目经验的开发者。不适合新手直接上手学习。",
+                "en": "This tutorial is written for people who are familiar with Three.js APIs and have some project experiences. It's not suitable for beginners to read."
+            }
+        },
+        {
+            "type": "Paragraph",
+            "hr": true,
+            "title": {
+                "zh": "什么是Nova？",
+                "en": "What is Nova?"
+            },
+            "discription": {
+                "zh": "Nova是一个依赖Three.js和Lodash的框架。Nova可以用于开发3D网页、游戏、BIM系统等，目的在于让开发WebHLL项目变得更加容易和高效。开发者可以编写组件和模块来降低代码耦合，提高代码复用率。",
+                "en": "Nova is a 3D framework depends on Three.js and Lodash. Nova could be used to create 3d web pages, games, BIMs and so on. The aim is to create WebGL project more efficiently and easier. And developers could write componenents and modules to lower the coupling degree and raise the reuse rate of code."
+            }
+        },
+        {
+            "type": "Paragraph",
+            "title": {
+                "zh": "开发原则",
+                "en": "Development principles"
+            },
+            "discription": {
+                "zh": "我们非常不建议开发者按照Three.js官方实例的方式写代码。实际上Three.js官方实例的代码不符合软件工程的规范，在代码中看不到任何项目架构思想。这些实例只是为了演示如何使用Three.js的一些API。太多初级开发者跟着这个不好的编程方式写代码导致最终项目难以维护，增加软件开发成本。Nova正是为了解决这样的问题而生。开发者最好在使用Nova时遵循4个开发原则：",
+                "en": "We extremely don't recommend developers to write codes following Three.js official demos. In fact, the official demos on Three.js don't meet the standards of the software engineering specification. There is no project architecture idea in these demos. They are just to demonstrate how to use Three.js's APIs. So many junior developers who follow the bad coding habits write code which is difficult to maintain, improve software complexity and improve the projects costs. Nova is a framework to solve these problems. It would be better for developers to follow four rules when using Nova:"
+            }
+        },
+        {
+            "type": "DisorderList",
+            "data": [
+                {
+                    "title": {
+                        "zh": "模块是独立的",
+                        "en": "Isolate modules"
+                    },
+                    "text": {
+                        "zh": "每个网页可能包含多个WebGL应用，每个应用和别的应用都是独立的。也就是说每个应用都有自己的属性，逻辑循环，渲染循环，和其他无法被其他应用访问的东西。两个应用之间的通信只能通过预先约定好的接口来完成。此外一个应用可以包含多个世界，每个世界也和别的世界独立。",
+                        "en": "One website might contain several WebGL apps, each app is isolated from others. That means every app has its own properties, logic loop, rendering loop and other things which can't be used by other apps. Communication between two apps should only be established on APIs which are arranged. What's more, one app could have several worlds, each worlds are also isolated from others."
+                    }
+                },
+                {
+                    "title": {
+                        "zh": "循环是不可见的",
+                        "en": "Loop is invisible"
+                    },
+                    "text": {
+                        "zh": "The demos on Three.js website put a lot of logic in requestAnimationFrame directly. That's awful! On the one hand, it's impossible to manage the functions efficiently and release garbage resource. On the other hand, the whole loop contains so many codes and hard to change logic dynamicly. Nova doesn't allow developers to do things on requestAnimationFrame directly, instead, it provides useful APIs to add or remove functions.",
+                        "en": "The demos on Three.js website put a lot of logic in requestAnimationFrame directly. That's awful! On the one hand, it's impossible to manage the functions efficiently and release garbage resource. On the other hand, the whole loop contains so many codes and hard to change logic dynamicly. Nova doesn't allow developers to do things on requestAnimationFrame directly, instead, it provides useful APIs to add or remove functions."
+                    }
+                },
+                {
+                    "title": {
+                        "zh": "按需加载",
+                        "en": "Load on demand"
+                    },
+                    "text": {
+                        "zh": "不像传统的以DOM元素为主的网页，WebGL应用包含大量的媒体资源。加载资源会造成用户必须等待很长时间。Nova为开发者提供了一个用于编写动态加载功能的优化方案。",
+                        "en": "Unlike traditional DOM web pages, WebGL applications often contain a large amount of media resources，Users have to wait such a long time due to resource loading. Nova provides an optimization for developers to write loading functions dynamicly."
+                    }
+                },
+                {
+                    "title": {
+                        "zh": "逻辑和渲染分离",
+                        "en": "Seperate logic from rendering"
+                    },
+                    "text": {
+                        "zh": "逻辑循环和渲染循环在业务上是完全不同的，因此它们必须分开处理。例如：物理引擎是用于纯粹的逻辑数据计算，后期特效用于图像处理。虽然它们都需要放在requestAnimationFrame中进行执行，但是它们不应该直接硬性的放到一起去处理。",
+                        "en": "Logic loop and rendering loop are whole different and they must be separated. For example: physics engine is just used to calculate data and postpocessing is used to change the view，Although both of them should be excuted in requestAnimationFrame，they shouldn't put togethor."
+                    }
+                }
+            ]
+        },
+        {
+            "type": "Paragraph",
+            "hr": "true"
+        },
+        {
+            "type": "Paragraph",
+            "title": {
+                "zh": "源码",
+                "en": "Source"
+            },
+            "children": [
+                {
+                    "type": "Text",
+                    "text": {
+                        "zh": "Nova在 ",
+                        "en": "Nova is open source on "
+                    }
+                },
+                {
+                    "type": "Tag",
+                    "color": "#08f",
+                    "children": [
+                        {
+                            "type": "A",
+                            "target": "blank",
+                            "href": "https://github.com/HypnosNova/Nova",
+                            "text": {
+                                "zh": "Github",
+                                "en": "Github"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "Text",
+                    "text": {
+                        "zh": "上开源。",
+                        "en": "."
+                    }
+                }
+            ]
+        },
+        {
+            "type": "Paragraph",
+            "children": [
+                {
+                    "type": "Text",
+                    "text": {
+                        "zh": "你可以使用git去克隆代码仓库：",
+                        "en": "You can use git to clone repository:"
+                    }
+                },
+                {
+                    "type": "Highlight",
+                    "language": "shell",
+                    "code": "git clone https://github.com/HypnosNova/Nova.git"
+
+                }
+            ]
+        },
+        {
+            "type": "Paragraph",
+            "children": [
+                {
+                    "type": "Text",
+                    "text": {
+                        "zh": "你也可以使用npm来安装Nova：",
+                        "en": "You can also use npm to install Nova:"
+                    }
+                },
+                {
+                    "type": "Highlight",
+                    "language": "shell",
+                    "code": "npm install nova-three --save"
+                }
+            ]
+        }
+    ]
+}
