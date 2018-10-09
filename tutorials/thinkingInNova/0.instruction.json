@@ -55,7 +55,7 @@
                         "en": "Loop is invisible"
                     },
                     "text": {
-                        "zh": "The demos on Three.js website put a lot of logic in requestAnimationFrame directly. That's awful! On the one hand, it's impossible to manage the functions efficiently and release garbage resource. On the other hand, the whole loop contains so many codes and hard to change logic dynamicly. Nova doesn't allow developers to do things on requestAnimationFrame directly, instead, it provides useful APIs to add or remove functions.",
+                        "zh": "在Three.js中，实例将逻辑操作直接写在了requestAnimationFrame里。那是极其糟糕的。一方面无法有效的管理执行的函数，也无法回收不必要的垃圾。另一方面整个循环包含太多代码，很难动态的添加新功能。Nova不允许开发者直接操作requestAnimationFrame，它提供了很多实用的API作为替代，可动态的插入或移除执行的函数。",
                         "en": "The demos on Three.js website put a lot of logic in requestAnimationFrame directly. That's awful! On the one hand, it's impossible to manage the functions efficiently and release garbage resource. On the other hand, the whole loop contains so many codes and hard to change logic dynamicly. Nova doesn't allow developers to do things on requestAnimationFrame directly, instead, it provides useful APIs to add or remove functions."
                     }
                 },
