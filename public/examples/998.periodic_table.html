@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Periodic table</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  </head>
+  <body>
+    <script src="https://cdn.bootcss.com/lodash.js/4.17.5/lodash.min.js"></script>
+    <script src="../lib/three.min.js"></script>
+    <script src="js/controls/TrackballControls.js"></script>
+    <script src="../build/nova.js"></script>
+    <script src="../lib/tween.js"></script>
+    <script>
+      let app = new NOVA.App();
+
+      const WIDTH = 150,
+        HEIGHT = 200,
+        SCALE = 0.43,
+        FONT_FAMILY = "微软雅黑",
+        NUMBER_SIZE = 20,
+        SYMBOL_SIZE = 60,
+        WORD_COLOR = "#ffffff",
+        BACK_COLOR = "rgba(0,128,156,0.4)";
+
+      let bodyDom;
+      const TBALE_DATA = [
+        "H", "Hydrogen", "1.00794", 1, 1,
+        "He", "Helium", "4.002602", 18, 1,
+        "Li", "Lithium", "6.941", 1, 2,
+        "Be", "Beryllium", "9.012182", 2, 2,
+        "B", "Boron", "10.811", 13, 2,
+        "C", "Carbon", "12.0107", 14, 2,
+        "N", "Nitrogen", "14.0067", 15, 2,
+        "O", "Oxygen", "15.9994", 16, 2,
+        "F", "Fluorine", "18.9984032", 17, 2,
+        "Ne", "Neon", "20.1797", 18, 2,
+        "Na", "Sodium", "22.98976...", 1, 3,
+        "Mg", "Magnesium", "24.305", 2, 3,
+        "Al", "Aluminium", "26.9815386", 13, 3,
+        "Si", "Silicon", "28.0855", 14, 3,
+        "P", "Phosphorus", "30.973762", 15, 3,
+        "S", "Sulfur", "32.065", 16, 3,
+        "Cl", "Chlorine", "35.453", 17, 3,
+        "Ar", "Argon", "39.948", 18, 3,
+        "K", "Potassium", "39.948", 1, 4,
+        "Ca", "Calcium", "40.078", 2, 4,
+        "Sc", "Scandium", "44.955912", 3, 4,
+        "Ti", "Titanium", "47.867", 4, 4,
+        "V", "Vanadium", "50.9415", 5, 4,
+        "Cr", "Chromium", "51.9961", 6, 4,
+        "Mn", "Manganese", "54.938045", 7, 4,
+        "Fe", "Iron", "55.845", 8, 4,
+        "Co", "Cobalt", "58.933195", 9, 4,
+        "Ni", "Nickel", "58.6934", 10, 4,
+        "Cu", "Copper", "63.546", 11, 4,
+        "Zn", "Zinc", "65.38", 12, 4,
+        "Ga", "Gallium", "69.723", 13, 4,
+        "Ge", "Germanium", "72.63", 14, 4,
+        "As", "Arsenic", "74.9216", 15, 4,
+        "Se", "Selenium", "78.96", 16, 4,
+        "Br", "Bromine", "79.904", 17, 4,
+        "Kr", "Krypton", "83.798", 18, 4,
+        "Rb", "Rubidium", "85.4678", 1, 5,
+        "Sr", "Strontium", "87.62", 2, 5,
+        "Y", "Yttrium", "88.90585", 3, 5,
+        "Zr", "Zirconium", "91.224", 4, 5,
+        "Nb", "Niobium", "92.90628", 5, 5,
+        "Mo", "Molybdenum", "95.96", 6, 5,
+        "Tc", "Technetium", "(98)", 7, 5,
+        "Ru", "Ruthenium", "101.07", 8, 5,
+        "Rh", "Rhodium", "102.9055", 9, 5,
+        "Pd", "Palladium", "106.42", 10, 5,
+        "Ag", "Silver", "107.8682", 11, 5,
+        "Cd", "Cadmium", "112.411", 12, 5,
+        "In", "Indium", "114.818", 13, 5,
+        "Sn", "Tin", "118.71", 14, 5,
+        "Sb", "Antimony", "121.76", 15, 5,
+        "Te", "Tellurium", "127.6", 16, 5,
+        "I", "Iodine", "126.90447", 17, 5,
+        "Xe", "Xenon", "131.293", 18, 5,
+        "Cs", "Caesium", "132.9054", 1, 6,
+        "Ba", "Barium", "132.9054", 2, 6,
+        "La", "Lanthanum", "138.90547", 4, 9,
+        "Ce", "Cerium", "140.116", 5, 9,
+        "Pr", "Praseodymium", "140.90765", 6, 9,
+        "Nd", "Neodymium", "144.242", 7, 9,
+        "Pm", "Promethium", "(145)", 8, 9,
+        "Sm", "Samarium", "150.36", 9, 9,
+        "Eu", "Europium", "151.964", 10, 9,
+        "Gd", "Gadolinium", "157.25", 11, 9,
+        "Tb", "Terbium", "158.92535", 12, 9,
+        "Dy", "Dysprosium", "162.5", 13, 9,
+        "Ho", "Holmium", "164.93032", 14, 9,
+        "Er", "Erbium", "167.259", 15, 9,
+        "Tm", "Thulium", "168.93421", 16, 9,
+        "Yb", "Ytterbium", "173.054", 17, 9,
+        "Lu", "Lutetium", "174.9668", 18, 9,
+        "Hf", "Hafnium", "178.49", 4, 6,
+        "Ta", "Tantalum", "180.94788", 5, 6,
+        "W", "Tungsten", "183.84", 6, 6,
+        "Re", "Rhenium", "186.207", 7, 6,
+        "Os", "Osmium", "190.23", 8, 6,
+        "Ir", "Iridium", "192.217", 9, 6,
+        "Pt", "Platinum", "195.084", 10, 6,
+        "Au", "Gold", "196.966569", 11, 6,
+        "Hg", "Mercury", "200.59", 12, 6,
+        "Tl", "Thallium", "204.3833", 13, 6,
+        "Pb", "Lead", "207.2", 14, 6,
+        "Bi", "Bismuth", "208.9804", 15, 6,
+        "Po", "Polonium", "(209)", 16, 6,
+        "At", "Astatine", "(210)", 17, 6,
+        "Rn", "Radon", "(222)", 18, 6,
+        "Fr", "Francium", "(223)", 1, 7,
+        "Ra", "Radium", "(226)", 2, 7,
+        "Ac", "Actinium", "(227)", 4, 10,
+        "Th", "Thorium", "232.03806", 5, 10,
+        "Pa", "Protactinium", "231.0588", 6, 10,
+        "U", "Uranium", "238.02891", 7, 10,
+        "Np", "Neptunium", "(237)", 8, 10,
+        "Pu", "Plutonium", "(244)", 9, 10,
+        "Am", "Americium", "(243)", 10, 10,
+        "Cm", "Curium", "(247)", 11, 10,
+        "Bk", "Berkelium", "(247)", 12, 10,
+        "Cf", "Californium", "(251)", 13, 10,
+        "Es", "Einstenium", "(252)", 14, 10,
+        "Fm", "Fermium", "(257)", 15, 10,
+        "Md", "Mendelevium", "(258)", 16, 10,
+        "No", "Nobelium", "(259)", 17, 10,
+        "Lr", "Lawrencium", "(262)", 18, 10,
+        "Rf", "Rutherfordium", "(267)", 4, 7,
+        "Db", "Dubnium", "(268)", 5, 7,
+        "Sg", "Seaborgium", "(271)", 6, 7,
+        "Bh", "Bohrium", "(272)", 7, 7,
+        "Hs", "Hassium", "(270)", 8, 7,
+        "Mt", "Meitnerium", "(276)", 9, 7,
+        "Ds", "Darmstadium", "(281)", 10, 7,
+        "Rg", "Roentgenium", "(280)", 11, 7,
+        "Cn", "Copernicium", "(285)", 12, 7,
+        "Uut", "Unutrium", "(284)", 13, 7,
+        "Fl", "Flerovium", "(289)", 14, 7,
+        "Uup", "Ununpentium", "(288)", 15, 7,
+        "Lv", "Livermorium", "(293)", 16, 7,
+        "Uus", "Ununseptium", "(294)", 17, 7,
+        "Uuo", "Ununoctium", "(294)", 18, 7
+      ];
+
+      var objects = [];
+      var targets = {
+        table: [],
+      };
+      init();
+
+      function drawElement(i) {
+        let canvas = document.createElement("canvas");
+        canvas.width = WIDTH;
+        canvas.height = HEIGHT;
+        let ctx = canvas.getContext("2d");
+        ctx.imageSmoothingEnabled = true;
+        if (window.devicePixelRatio) {
+          canvas.height = HEIGHT * window.devicePixelRatio;
+          canvas.width = WIDTH * window.devicePixelRatio;
+          ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+        ctx.fillStyle = BACK_COLOR;
+        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+        ctx.textAlign = "center";
+        ctx.font = "normal " + NUMBER_SIZE + "px " + FONT_FAMILY;
+        ctx.fillStyle = WORD_COLOR;
+        let width = ctx.measureText(((i / 5) + 1)).width;
+        ctx.fillText(((i / 5) + 1) + "", WIDTH * 0.82, 30);
+        ctx.font = "bold " + SYMBOL_SIZE + "px " + FONT_FAMILY;
+        ctx.fillStyle = WORD_COLOR;
+        width = ctx.measureText(TBALE_DATA[i]).width;
+        ctx.fillText(TBALE_DATA[i], WIDTH * 0.5, 115);
+        ctx.font = "normal " + NUMBER_SIZE + "px " + FONT_FAMILY;
+        ctx.fillStyle = WORD_COLOR;
+        width = ctx.measureText(TBALE_DATA[i + 1]).width;
+        ctx.fillText(TBALE_DATA[i + 1], WIDTH * 0.5, 158);
+        ctx.font = "normal " + NUMBER_SIZE + "px " + FONT_FAMILY;
+        ctx.fillStyle = WORD_COLOR;
+        width = ctx.measureText(TBALE_DATA[i + 2]).width;
+        ctx.fillText(TBALE_DATA[i + 2], WIDTH * 0.5, 183);
+
+        let texture = new THREE.CanvasTexture(canvas);
+        texture.generateMipmaps = false;
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        let geometry = new THREE.PlaneBufferGeometry(WIDTH * SCALE, HEIGHT * SCALE, 1);
+        let material = new THREE.MeshBasicMaterial({
+          color: 0xffffff,
+          map: texture,
+          transparent: true,
+          side: THREE.DoubleSide
+        });
+        var object = new THREE.Mesh(geometry, material);
+        object.events = new NOVA.Events();
+        object.events.click.add(() => {
+          object.hasClick = !object.hasClick;
+          material.color = new THREE.Color(object.hasClick ? 0xffff88 : 0xffffff);
+        });
+
+        object.position.x = Math.random() * 2000 - 1000;
+        object.position.y = Math.random() * 2000 - 1000;
+        object.position.z = Math.random() * 2000 - 1000;
+        return object;
+      }
+
+      function createSphereTargets() {
+        let vector = new THREE.Vector3();
+        let spherical = new THREE.Spherical();
+        let targets = [];
+        for (let i = 0, l = objects.length; i < l; i++) {
+          let phi = Math.acos(-1 + (2 * i) / l);
+          let theta = Math.sqrt(l * Math.PI) * phi;
+          let object = new THREE.Object3D();
+          spherical.set(800, phi, theta);
+          object.position.setFromSpherical(spherical);
+          vector.copy(object.position)
+            .multiplyScalar(2);
+          object.lookAt(vector);
+          targets.push(object);
+        }
+        return targets;
+      }
+
+      function createHelixTargets() {
+        let vector = new THREE.Vector3();
+        var cylindrical = new THREE.Cylindrical();
+        let targets = [];
+        for (var i = 0, l = objects.length; i < l; i++) {
+          var theta = i * 0.175 + Math.PI;
+          var y = -(i * 8) + 450;
+
+          var object = new THREE.Object3D();
+          cylindrical.set(900, theta, y);
+          object.position.setFromCylindrical(cylindrical);
+
+          vector.x = object.position.x * 2;
+          vector.y = object.position.y;
+          vector.z = object.position.z * 2;
+          object.lookAt(vector);
+          targets.push(object);
+        }
+        return targets;
+      }
+
+      function createGridTargets() {
+        let targets = [];
+        for (let i = 0; i < objects.length; i++) {
+          let object = new THREE.Object3D();
+          object.position.x = ((i % 5) * 400) - 800;
+          object.position.y = (-(Math.floor(i / 5) % 5) * 400) + 800;
+          object.position.z = (Math.floor(i / 25)) * 1000 - 2000;
+          targets.push(object);
+        }
+        return targets;
+      }
+
+      function addTrackball() {
+        let controls = new THREE.TrackballControls(app.world.camera);
+        controls.noZoom = false;
+        controls.rotateSpeed = 1;
+        controls.minDistance = 500;
+        controls.maxDistance = 4000;
+        controls.update();
+        app.logicLoop.add(() => {
+          controls.update();
+        });
+      }
+
+      function createBottomBtn() {
+        let j = -3;
+        for (let i in targets) {
+          j += 3;
+          let btn = new NOVA.Txt(i, {
+            backgroundColor: "rgba(255,100,0,0.5)",
+            color: "#ffffff",
+            fontSize: 20,
+            width: 100,
+            height: 32
+          });
+          bodyDom.add(btn);
+          btn.scale.set(0.2, 0.2, 1);
+          btn.position.set(-4.5 + j, -7.2, 1);
+          btn.events = new NOVA.Events();
+          btn.events.click.add(() => {
+            transform(targets[i], 2000);
+          });
+        }
+      }
+
+      function init() {
+        app.world.camera.position.z = 1500;
+        for (let i = 0; i < TBALE_DATA.length; i += 5) {
+          let object = drawElement(i);
+          app.world.scene.add(object);
+          objects.push(object);
+
+          let vector = new THREE.Object3D();
+          vector.position.x = (TBALE_DATA[i + 3] * 70) - 665;
+          vector.position.y = -(TBALE_DATA[i + 4] * 90) + 485;
+          targets.table.push(vector);
+        }
+
+        targets.sphere = createSphereTargets();
+        targets.helix = createHelixTargets();
+        targets.grid = createGridTargets();
+
+        addTrackball();
+
+        bodyDom = new NOVA.Body(app.world);
+        bodyDom.distanceFromCamera = 20;
+        app.world.scene.add(bodyDom);
+
+        createBottomBtn();
+      }
+
+      transform(targets.table, 2000);
+
+      function transform(targets, duration) {
+        TWEEN.removeAll();
+        for (var i = 0; i < objects.length; i++) {
+          var object = objects[i];
+          var target = targets[i];
+
+          new TWEEN.Tween(object.position)
+            .to({
+              x: target.position.x,
+              y: target.position.y,
+              z: target.position.z
+            }, Math.random() * duration + duration)
+            .easing(TWEEN.Easing.Exponential.InOut)
+            .start();
+
+          new TWEEN.Tween(object.rotation)
+            .to({
+              x: target.rotation.x,
+              y: target.rotation.y,
+              z: target.rotation.z
+            }, Math.random() * duration + duration)
+            .easing(TWEEN.Easing.Exponential.InOut)
+            .start();
+        }
+        new TWEEN.Tween(this).to({}, duration * 2).start();
+      }
+
+      app.logicLoop.add(() => {
+        TWEEN.update();
+        bodyDom.lockToScreen();
+      });
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>FXAA effect</title>
+  </head>
+  <body>
+    <script src="https://cdn.bootcss.com/lodash.js/4.17.5/lodash.min.js"></script>
+    <script src="../lib/three.min.js"></script>
+    <script src="../build/nova.js"></script>
+    <script>
+      let app = new NOVA.App();
+      app.world.camera.position.z = 2;
+
+      loader = new NOVA.LoaderFactory();
+      loader.loadTexture('fxaa', 'assets/images/fxaa.png', (texture) => {
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+
+        let geometry = new THREE.PlaneBufferGeometry(1, 1);
+        let fxaaMaterial = new THREE.ShaderMaterial(NOVA.FXAAShader);
+        fxaaMaterial.uniforms.tDiffuse.value = texture;
+        fxaaMaterial.uniforms.resolution.value.x = 1 / texture.image.naturalWidth;
+        fxaaMaterial.uniforms.resolution.value.y = 1 / texture.image.naturalHeight;
+        let material = new THREE.MeshBasicMaterial({
+          map: texture
+        });
+        let mesh = new THREE.Mesh(geometry, material);
+        app.world.scene.add(mesh);
+        mesh.position.x = 0.7;
+
+        mesh = new THREE.Mesh(geometry, fxaaMaterial);
+        app.world.scene.add(mesh);
+        mesh.position.x = -0.7;
+      });
+    </script>
+  </body>
+
+</html>

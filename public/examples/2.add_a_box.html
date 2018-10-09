@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>Add a box in the scene</title>
+</head>
+
+<body>
+	<script src="https://cdn.bootcss.com/lodash.js/4.17.5/lodash.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/96/three.min.js"></script>
+	<script src="https://hypnosnova.github.io/Nova/build/nova.js"></script>
+	<script>
+		let app = new NOVA.App();
+
+		let scene = app.world.scene;
+		let camera = app.world.camera;
+		camera.position.set(1, 1, 1);
+		camera.lookAt(scene.position);
+
+		let geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+		let material = new THREE.MeshNormalMaterial();
+		let mesh = new THREE.Mesh(geometry, material);
+		scene.add(mesh);
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+.anchorList {
+    position: fixed;
+    right: 32px;
+    top: 112px;
+    background-color: transparent;
+}
+
+.anchorList .ant-anchor-link-title {
+    color: #dddddd;
+    padding: 8px 0;
+}
+
+.anchorList .ant-anchor-link-title:hover {
+    color: #9090ff;
+}
+
+.anchorList .ant-anchor-ink::before {
+    background: red;
+    width: 1px;
+}
+
+.anchorList .ant-anchor-link {
+    padding: 1px 0 1px 10px;
+}
+
+.hljs {
+    background: rgba(0, 0, 0, 0.5) !important;
+}
+
+.intend20 {
+    padding-left: 20px;
+}

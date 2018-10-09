@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Logic loop</title>
+  </head>
+
+  <body>
+    <input value="https://github.com" id="input" placeholder="请输入文字" style="position: fixed;top: 0;font-size: 24px;">
+    <script src="https://cdn.bootcss.com/lodash.js/4.17.5/lodash.min.js"></script>
+    <script src="../lib/three.min.js"></script>
+    <script src="../build/nova.js"></script>
+    <script>
+      let app = new NOVA.App({
+        renderer: {
+          clearColor: 0xffffff
+        }
+      });
+      app.world.camera.position.set(0, 0, 400);
+      let scene = app.world.scene;
+
+      let width = 10;
+      let geometry = new THREE.BoxBufferGeometry(width, width, width);
+      let material = new THREE.MeshBasicMaterial({
+        color: 0x333333
+      });
+
+      makeQRCode("https://github.com");
+
+      function makeQRCode(str) {
+        clearScene();
+        let qrcode = new NOVA.QRCode(str);
+        let arr = qrcode.data;
+        let size = qrcode.size;
+
+        for (let i = 0; i < size; i++) {
+          for (let j = 0; j < size; j++) {
+            if (arr[i][j]) {
+              let cube = new THREE.Mesh(geometry, material);
+              scene.add(cube);
+              cube.position.set((-size / 2 + j) * width, (size / 2 - i) * width, 0);
+            }
+          }
+        }
+      }
+
+      function clearScene() {
+        let len = scene.children.length;
+        for (let i = 0; i < len; i++) {
+          if (scene.children[i].type == "Mesh") {
+            scene.remove(scene.children[i]);
+            len--;
+            i--;
+          }
+        }
+      }
+
+      let input = document.getElementById("input");
+      input.onchange = function() {
+        if (input.value.length) {
+          makeQRCode(input.value);
+        }
+      }
+    </script>
+  </body>
+
+</html>

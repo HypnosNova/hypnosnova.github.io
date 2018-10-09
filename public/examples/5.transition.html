@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>World transition</title>
+</head>
+
+<body>
+	<script src="https://cdn.bootcss.com/lodash.js/4.17.5/lodash.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/96/three.min.js"></script>
+	<script src="https://hypnosnova.github.io/Nova/build/nova.js"></script>
+	<script>
+		let app = new NOVA.App();
+		app.world.clearColor = 0xff00ff;
+		let scene = app.world.scene;
+		let camera = app.world.camera;
+		camera.position.z = 2;
+		geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+		material = new THREE.MeshNormalMaterial();
+		mesh = new THREE.Mesh(geometry, material);
+		scene.add(mesh);
+		let world1 = app.world;
+
+		let world2 = new NOVA.World(app, undefined, 0x00ff00);
+		world2.camera.position.z = 2;
+		geometry2 = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+		material2 = new THREE.MeshNormalMaterial();
+		mesh2 = new THREE.Mesh(geometry2, material2);
+		world2.scene.add(mesh2);
+
+		let loader = new THREE.TextureLoader();
+		loader.load(
+			'assets/images/transition/transition1.png', (texture) => {
+				let tran = new NOVA.Transitioner(app, world2, texture);
+				app.logicLoop.add(() => {
+					tran.options.transition = (Math.sin(new Date().getTime() / 1000) + 1) / 2;
+					tran.update();
+				});
+				app.world = tran.world;
+			}
+		);
+		app.logicLoop.add(() => {
+			mesh.rotation.x += 0.01;
+			mesh.rotation.y += 0.02;
+		});
+	</script>
+</body>
+
+</html>

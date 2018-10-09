@@ -1,0 +1,21 @@
+.ParagraphH1 {
+    color: #eeeeee;
+}
+
+.paragraph{
+    font-size: 16px;
+    margin-bottom: 0 auto 20px;
+    color: #eeeeee
+}
+
+.Context {
+    color: #eeeeee;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.ParagraphHr {
+    color: rgba(200, 200, 200, 0.5);
+    margin: 20px auto;
+    border: 1px solid rgba(150, 150, 255, 0.3);
+}

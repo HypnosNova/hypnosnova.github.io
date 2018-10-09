@@ -1,0 +1,68 @@
+.ant-layout{
+    background: transparent;
+}
+
+.ant-breadcrumb{
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.ant-breadcrumb-link{
+    color: rgba(255, 255, 150, 0.95);
+}
+
+.ant-breadcrumb-separator{
+    color: rgba(255, 255, 255, 0.95)!important;
+}
+
+.nameNeon {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10vh;
+}
+
+.nameNeon>p {
+    text-decoration: none;
+    transition: all 0.5s;
+    font-family: Arial, sans-serif
+}
+
+.nameNeon>p {
+    color: #FFDD1B;
+    font-family: Pacifico;
+    animation: neonLight 1.5s ease-in-out infinite alternate;
+}
+
+.nameNeon>p:hover {
+    animation: neon 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neon {
+    from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FFDD1B, 0 0 70px #FFDD1B, 0 0 80px #FFDD1B, 0 0 100px #FFDD1B, 0 0 150px #FFDD1B;
+    }
+    to {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFDD1B, 0 0 35px #FFDD1B, 0 0 40px #FFDD1B, 0 0 50px #FFDD1B, 0 0 75px #FFDD1B;
+    }
+}
+
+@keyframes neonLight {
+    from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.5), 0 0 40px rgba(255, 211, 21, 0.5), 0 0 70px rgba(255, 211, 21, 0.5), 0 0 80px rgba(255, 211, 21, 0.5), 0 0 100px rgba(255, 211, 21, 0.5), 0 0 150px rgba(255, 211, 21, 0.5);
+    }
+    to {
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 255, 255, 0.3), 0 0 15px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 211, 21, 0.3), 0 0 35px rgba(255, 211, 21, 0.3), 0 0 40px rgba(255, 211, 21, 0.3), 0 0 50px rgba(255, 211, 21, 0.3), 0 0 75px rgba(255, 211, 21, 0.3);
+    }
+}
+
+.discription {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 5vh;
+    color: #ffcc77;
+    width: 100%;
+    text-align: center;
+}
