@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Menu, Breadcrumb, Tag } from 'antd';
+import { Layout, Menu, Breadcrumb, Tag, Tabs  } from 'antd';
 import "./style.css";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -15,7 +15,7 @@ import './tomorrow-night-bright.css';
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
-
+const TabPane = Tabs.TabPane;
 const LANGUAGE = {
 	TUTORIAL: {
 		"zh": "教程",
@@ -117,6 +117,12 @@ class TutorialPage extends React.Component {
 				return <a key={key} target={obj.target} href={obj.href}>{obj.text[language]}</a>
 			case "Highlight":
 				return <Highlight key={key} language={obj.language}>{obj.code}</Highlight>
+			case "Tab":
+				return <Tabs defaultActiveKey="0">{
+					obj.children.map((child, index) => {
+						return <TabPane tab={child.tabName[language]} key={index}>{this.createOneElement(child, index)}</TabPane>
+					})
+				}</Tabs>
 			default:
 				return false;
 		}

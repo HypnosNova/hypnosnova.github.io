@@ -1,101 +1,105 @@
 .subTitle {
-    padding-left: 12px !important;
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    pointer-events: none;
-    font-size: 16px !important;
-    line-height: 32px !important;
-    height: 32px !important;
-    color: #808080 !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.03) !important;
-    text-align: center;
+	padding-left: 12px !important;
+	background-color: rgba(255, 255, 255, 0.05) !important;
+	pointer-events: none;
+	font-size: 16px !important;
+	line-height: 32px !important;
+	height: 32px !important;
+	color: #808080 !important;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+	border-top: 1px solid rgba(255, 255, 255, 0.03) !important;
+	text-align: center;
+}
+
+.ant-tabs-nav {
+	color: #ccc;
 }
 
 .ant-layout-sider {
-    background-color: transparent;
+	background-color: transparent;
 }
 
 .ant-menu-submenu .ant-menu-sub {
-    background-color: transparent;
+	background-color: transparent;
 }
 
 .firstTitle {
-    height: 100%;
-    border-right: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #dddddd;
-    font-weight: bolder;
-    font-size: 32px;
+	height: 100%;
+	border-right: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: #dddddd;
+	font-weight: bolder;
+	font-size: 32px;
 }
 
 .firstTitle:hover {
-    color: #ffffff;
+	color: #ffffff;
 }
 
 .leftSider {
-    overflow: auto;
-    height: 100%;
-    position: fixed;
-    left: 0;
+	overflow: auto;
+	height: 100%;
+	position: fixed;
+	left: 0;
 }
 
 .ant-menu-submenu-title {
-    padding-left: 12px !important;
-    font-size: 18px !important;
-    margin: 0px 0 !important;
-    color: #aaaaaa;
-    background: rgba(255, 255, 255, 0.1)
+	padding-left: 12px !important;
+	font-size: 18px !important;
+	margin: 0px 0 !important;
+	color: #aaaaaa;
+	background: rgba(255, 255, 255, 0.1)
 }
 
 .ant-menu-submenu-title:hover {
-    color: #eeeeee;
-    background: rgba(255, 255, 255, 0.15)
+	color: #eeeeee;
+	background: rgba(255, 255, 255, 0.15)
 }
 
 .ant-menu-sub.ant-menu-inline>.ant-menu-item,
 .ant-menu-sub.ant-menu-inline>.ant-menu-submenu>.ant-menu-submenu-title {
-    color: #999999;
-    background: rgba(0, 0, 0, 0.05);
-    margin-bottom: 1px;
-    margin-top: 1px;
+	color: #999999;
+	background: rgba(0, 0, 0, 0.05);
+	margin-bottom: 1px;
+	margin-top: 1px;
 }
 
 .linkBtn {
-    padding-left: 20px !important;
+	padding-left: 20px !important;
 }
 
-.linkBtn a{
-    color: #999999;
+.linkBtn a {
+	color: #999999;
 }
 
-.linkBtn a:hover{
-    color: #ccccdd !important;
+.linkBtn a:hover {
+	color: #ccccdd !important;
 }
 
 
 .linkBtn:hover {
-    background-color: rgba(34, 180, 255, 0.2) !important;
+	background-color: rgba(34, 180, 255, 0.2) !important;
 }
 
-.ant-menu-item-selected a{
-    color: white !important;
+.ant-menu-item-selected a {
+	color: white !important;
 }
 
 .ant-menu-item-selected {
-    background-color: rgba(23, 120, 255, 0.2) !important;
+	background-color: rgba(23, 120, 255, 0.2) !important;
 }
 
 .viewContainer {
-    background: "transparent";
-    margin: 0;
-    min-height: 280;
-    max-height: calc(100vh - 112px);
-    overflow-y: scroll!important;
+	background: "transparent";
+	margin: 0;
+	min-height: 280;
+	max-height: calc(100vh - 112px);
+	overflow-y: scroll !important;
 }
 
 .viewFrame {
-    width: 100%;
-    height: calc(100vh - 146px);
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(0, 128, 255, 0.7);
+	width: 100%;
+	height: calc(100vh - 146px);
+	background: rgba(0, 0, 0, 0.5);
+	border: 1px solid rgba(0, 128, 255, 0.7);
 }
